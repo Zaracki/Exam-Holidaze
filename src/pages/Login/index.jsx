@@ -14,6 +14,7 @@ const Login = () => {
     const result = await post(data);
     if (result && result.data) {
       save('userProfile', result.data);
+      save('accessToken', result.data.accessToken); // Save accessToken to local storage
     }
   };
 

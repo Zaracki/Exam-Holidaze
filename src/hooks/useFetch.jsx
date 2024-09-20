@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { load } from "../utils/LocalStorage";
+import { API_KEY } from "../api/Constants";
 
 export function useFetch(url) {
   const [data, setData] = useState([]);
@@ -10,14 +12,27 @@ export function useFetch(url) {
       try {
         setIsLoading(true);
         setHasError(false);
-    
-        const response = await fetch(url);
+
+        const headers = new Headers();
+        const accessToken = load('accessToken');
+
+        if (accessToken) {
+          headers.append('Authorization', `Bearer ${accessToken}`);
+        }
+
+        if (API_KEY) {
+          headers.append('X-Noroff-API-Key', API_KEY);
+        }
+
+        headers.append('Content-Type', 'application/json');
+
+        const response = await fetch(url, { headers });
         console.log("Response:", response);
-    
+
         if (!response.ok) {
           throw new Error(`Error: ${response.status}`);
         }
-    
+
         const json = await response.json();
         setData(json.data);
       } catch (error) {
