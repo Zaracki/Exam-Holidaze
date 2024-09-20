@@ -5,3 +5,5 @@ export const API_URL_LOGIN = `${API_BASE_URL}/auth/login?_holidaze=true`;
 export const API_URL_REGISTER = `${API_BASE_URL}/auth/register`;
 
 export const VENUES = `/venues`;
+
+export const API_KEY = "4c3b4c45-833d-49e9-b967-c2a18a52c249";

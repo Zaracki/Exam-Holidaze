@@ -1,6 +1,11 @@
+import React from "react";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
+import { useFetch } from "../../hooks/useFetch";
+import { API_URL, VENUES } from "../../api/Constants";
+import { VenueList } from "../../components/lists/VenueList";
 
 export const Home = () => {
+  const { data: venues, isLoading, hasError } = useFetch(`${API_URL}${VENUES}`);
 
   return (
     <div className="bg-black min-h-screen">
@@ -27,6 +32,10 @@ export const Home = () => {
           </div>
         </div>
       </div>
+          {/* Conditional rendering for loading, error, and venue list */}
+          {isLoading && <p>Loading venues...</p>}
+          {hasError && <p>Something went wrong, please try again later.</p>}
+          {!isLoading && !hasError && <VenueList products={venues} />}
     </div>
   );
 };
