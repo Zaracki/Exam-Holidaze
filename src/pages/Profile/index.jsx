@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFetch } from "../../hooks/useFetch";
 import { load } from "../../utils/LocalStorage";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
 import { Link } from "react-router-dom";
 import usePut from "../../hooks/usePut";
+import useDelete from "../../hooks/useDelete";
 
 const Profile = () => {
   const userProfile = load('userProfile');
@@ -11,10 +12,18 @@ const Profile = () => {
   const bookingsUrl = `https://v2.api.noroff.dev/holidaze/profiles/${profileName}?_bookings=true`;
   const venuesUrl = `https://v2.api.noroff.dev/holidaze/profiles/${profileName}/venues`;
   const { data: bookingsData, isLoading: isLoadingBookings, hasError: hasErrorBookings } = useFetch(bookingsUrl);
-  const { data: venuesData, isLoading: isLoadingVenues, hasError: hasErrorVenues } = useFetch(venuesUrl);
+  const { data: fetchedVenuesData, isLoading: isLoadingVenues, hasError: hasErrorVenues } = useFetch(venuesUrl);
   const { put, loading, error } = usePut(bookingsUrl);
+  const { del, loading: deleteLoading, error: deleteError } = useDelete();
 
   const [avatarUrl, setAvatarUrl] = useState('');
+  const [venuesData, setVenuesData] = useState([]);
+
+  useEffect(() => {
+    if (fetchedVenuesData) {
+      setVenuesData(fetchedVenuesData);
+    }
+  }, [fetchedVenuesData]);
 
   const handleSubmit = async () => {
     const updateData = {
@@ -22,6 +31,14 @@ const Profile = () => {
     };
     await put(updateData);
     window.location.reload();
+  };
+
+  const handleDelete = async (venueId) => {
+    const deleteUrl = `https://v2.api.noroff.dev/holidaze/venues/${venueId}`;
+    const success = await del(deleteUrl);
+    if (success) {
+      setVenuesData((prevData) => prevData.filter((venue) => venue.id !== venueId));
+    }
   };
 
   const formatDate = (dateString) => {
@@ -99,6 +116,7 @@ const Profile = () => {
                 <p>Max Guests: {venue.maxGuests}</p>
                 <p>Rating: {venue.rating}</p>
                 <p>Location: {venue.location.city}, {venue.location.country}</p>
+                <PrimaryButton onClick={() => handleDelete(venue.id)}>Delete Venue</PrimaryButton>
               </div>
             ))
           ) : (

@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { load } from '../utils/LocalStorage';
 import { API_KEY } from '../api/Constants';
 
-const useDelete = (url) => {
+const useDelete = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const del = async () => {
+  const del = async (url) => {
     setLoading(true);
     setError(null);
 
@@ -26,12 +26,17 @@ const useDelete = (url) => {
         method: 'DELETE',
         headers: headers,
       });
-      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error('Failed to delete');
+      }
+
       setLoading(false);
-      return result;
+      return true;
     } catch (err) {
       setError(err);
       setLoading(false);
+      return false;
     }
   };
 
