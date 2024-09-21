@@ -24,6 +24,11 @@ const Profile = () => {
     window.location.reload();
   };
 
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
   if (isLoadingBookings || isLoadingVenues) return <p>Loading...</p>;
   if (hasErrorBookings || hasErrorVenues) return <p>Error loading profile.</p>;
 
@@ -63,38 +68,39 @@ const Profile = () => {
         </Link>
         <h2 className="text-3xl font-medium mb-4 mt-6">My bookings</h2>
         <hr className="mt-3 mb-6 border-gray-400" />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {bookingsData.bookings && bookingsData.bookings.length > 0 ? (
-            <ul>
-              {bookingsData.bookings.map((booking) => (
-                <li key={booking.id}>
-                  <p>Venue: {booking.venue.name}</p>
-                  <p>From: {booking.dateFrom}</p>
-                  <p>To: {booking.dateTo}</p>
-                  <p>Guests: {booking.guests}</p>
-                </li>
-              ))}
-            </ul>
+            bookingsData.bookings.map((booking) => (
+              <div key={booking.id} className="bg-white p-4 rounded-lg shadow-md">
+                <img
+                  src={booking.venue.media[0].url}
+                  alt={booking.venue.media[0].alt}
+                  className="w-full h-48 object-cover rounded-t-lg"
+                />
+                <p className="font-semibold">Venue: {booking.venue.name}</p>
+                <p>From: {formatDate(booking.dateFrom)}</p>
+                <p>To: {formatDate(booking.dateTo)}</p>
+                <p>Guests: {booking.guests}</p>
+              </div>
+            ))
           ) : (
             <p>No bookings found.</p>
           )}
         </div>
         <h2 className="text-3xl font-medium mb-4 mt-6">My Venues</h2>
         <hr className="mt-3 mb-6 border-gray-400" />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {venuesData && venuesData.length > 0 ? (
-            <ul>
-              {venuesData.map((venue) => (
-                <li key={venue.id}>
-                  <p>Name: {venue.name}</p>
-                  <p>Description: {venue.description}</p>
-                  <p>Price: {venue.price}</p>
-                  <p>Max Guests: {venue.maxGuests}</p>
-                  <p>Rating: {venue.rating}</p>
-                  <p>Location: {venue.location.city}, {venue.location.country}</p>
-                </li>
-              ))}
-            </ul>
+            venuesData.map((venue) => (
+              <div key={venue.id} className="bg-white p-4 rounded-lg shadow-md">
+                <p className="font-semibold">Name: {venue.name}</p>
+                <p>Description: {venue.description}</p>
+                <p>Price: {venue.price}</p>
+                <p>Max Guests: {venue.maxGuests}</p>
+                <p>Rating: {venue.rating}</p>
+                <p>Location: {venue.location.city}, {venue.location.country}</p>
+              </div>
+            ))
           ) : (
             <p>No venues found.</p>
           )}
