@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
 import { useFetch } from "../../hooks/useFetch";
 import { API_URL, VENUES } from "../../api/Constants";
@@ -6,6 +6,17 @@ import { VenueList } from "../../components/lists/VenueList";
 
 export const Home = () => {
   const { data: venues, isLoading, hasError } = useFetch(`${API_URL}${VENUES}`);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredVenues, setFilteredVenues] = useState([]);
+
+  const handleSearch = () => {
+    if (venues) {
+      const filtered = venues.filter(venue =>
+        venue.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredVenues(filtered);
+    }
+  };
 
   return (
     <div className="bg-black min-h-screen">
@@ -27,14 +38,16 @@ export const Home = () => {
               type="text"
               placeholder="Search for your getaway..."
               className="flex-1 h-10 px-4 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <PrimaryButton className="ml-1">Search</PrimaryButton>
+            <PrimaryButton className="ml-1" onClick={handleSearch}>Search</PrimaryButton>
           </div>
         </div>
       </div>
-          {isLoading && <p>Loading venues...</p>}
-          {hasError && <p>Something went wrong, please try again later.</p>}
-          {!isLoading && !hasError && <VenueList products={venues} />}
+      {isLoading && <p>Loading venues...</p>}
+      {hasError && <p>Something went wrong, please try again later.</p>}
+      {!isLoading && !hasError && <VenueList products={filteredVenues.length > 0 ? filteredVenues : venues} />}
     </div>
   );
 };
