@@ -10,7 +10,7 @@ const Profile = () => {
   const userProfile = load('userProfile');
   const profileName = userProfile ? userProfile.name : 'defaultProfileName';
   const bookingsUrl = `https://v2.api.noroff.dev/holidaze/profiles/${profileName}?_bookings=true`;
-  const venuesUrl = `https://v2.api.noroff.dev/holidaze/profiles/${profileName}/venues`;
+  const venuesUrl = `https://v2.api.noroff.dev/holidaze/profiles/${profileName}/venues?_bookings=true`;
   const { data: bookingsData, isLoading: isLoadingBookings, hasError: hasErrorBookings } = useFetch(bookingsUrl);
   const { data: fetchedVenuesData, isLoading: isLoadingVenues, hasError: hasErrorVenues } = useFetch(venuesUrl);
   const { put, loading, error } = usePut(bookingsUrl);
@@ -18,6 +18,7 @@ const Profile = () => {
 
   const [avatarUrl, setAvatarUrl] = useState('');
   const [venuesData, setVenuesData] = useState([]);
+  const [collapsedVenues, setCollapsedVenues] = useState({});
 
   useEffect(() => {
     if (fetchedVenuesData) {
@@ -44,6 +45,13 @@ const Profile = () => {
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
+  const toggleCollapse = (venueId) => {
+    setCollapsedVenues((prev) => ({
+      ...prev,
+      [venueId]: !prev[venueId],
+    }));
   };
 
   if (isLoadingBookings || isLoadingVenues) return <p>Loading...</p>;
@@ -106,17 +114,40 @@ const Profile = () => {
         </div>
         <h2 className="text-3xl font-medium mb-4 mt-6">My Venues</h2>
         <hr className="mt-3 mb-6 border-gray-400" />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="space-y-4">
           {venuesData && venuesData.length > 0 ? (
             venuesData.map((venue) => (
-              <div key={venue.id} className="bg-white p-4 rounded-lg shadow-md">
+              <div key={venue.id} className="bg-white p-4 rounded-lg shadow-md relative">
                 <p className="font-semibold">Name: {venue.name}</p>
-                <p>Description: {venue.description}</p>
                 <p>Price: {venue.price}</p>
                 <p>Max Guests: {venue.maxGuests}</p>
                 <p>Rating: {venue.rating}</p>
                 <p>Location: {venue.location.city}, {venue.location.country}</p>
-                <PrimaryButton onClick={() => handleDelete(venue.id)}>Delete Venue</PrimaryButton>
+                <div className="flex space-x-2 mt-2">
+                  <Link to={`/EditVenue/${venue.id}`}>
+                    <button className="text-sm bg-blue-500 text-white py-1 px-2 rounded">Edit</button>
+                  </Link>
+                  <button onClick={() => handleDelete(venue.id)} className="text-sm bg-red-500 text-white py-1 px-2 rounded">Delete</button>
+                </div>
+                {venue.bookings && venue.bookings.length > 0 && (
+                  <>
+                    <button onClick={() => toggleCollapse(venue.id)} className="mt-4 text-blue-500">
+                      {collapsedVenues[venue.id] ? 'Hide Bookings' : 'Show Bookings'}
+                    </button>
+                    {collapsedVenues[venue.id] && (
+                      <ul className="mt-4">
+                        {venue.bookings.map((booking) => (
+                          <li key={booking.id} className="border-t pt-2 mt-2">
+                            <p><strong>User:</strong> {booking.customer.name}</p>
+                            <p><strong>From:</strong> {formatDate(booking.dateFrom)}</p>
+                            <p><strong>To:</strong> {formatDate(booking.dateTo)}</p>
+                            <p><strong>Guests:</strong> {booking.guests}</p>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </>
+                )}
               </div>
             ))
           ) : (
