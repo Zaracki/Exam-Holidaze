@@ -122,17 +122,18 @@ export const Venue = () => {
               <label className="block text-white text-sm font-bold mb-2" htmlFor="guests">
                 Number of Guests
               </label>
-              <input
-                type="number"
+              <select
                 id="guests"
                 name="guests"
-                min="1"
                 value={guests}
                 onChange={(e) => setGuests(e.target.value)}
                 className="w-full p-2 border border-gray-600 bg-white text-grey rounded-md"
-                placeholder="Enter number of guests"
                 required
-              />
+              >
+                {Array.from({ length: venue.maxGuests }, (_, i) => (
+                  <option key={i + 1} value={i + 1}>{i + 1}</option>
+                ))}
+              </select>
             </div>
             <div className="mb-4">
               <p className="text-lg text-white font-semibold">Total: {venue.price}</p>
