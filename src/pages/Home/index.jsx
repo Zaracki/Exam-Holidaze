@@ -32,7 +32,6 @@ export const Home = () => {
           </div>
         </div>
       </div>
-          {/* Conditional rendering for loading, error, and venue list */}
           {isLoading && <p>Loading venues...</p>}
           {hasError && <p>Something went wrong, please try again later.</p>}
           {!isLoading && !hasError && <VenueList products={venues} />}
