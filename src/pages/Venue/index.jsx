@@ -3,21 +3,29 @@ import { useParams } from 'react-router-dom';
 import PrimaryButton from '../../components/buttons/PrimaryButton';
 import { useFetch } from '../../hooks/useFetch';
 import usePost from '../../hooks/usePost';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 export const Venue = () => {
   const { id } = useParams();
-  const { data: venue, isLoading, hasError } = useFetch(`https://v2.api.noroff.dev/holidaze/venues/${id}?_owner=true`);
-  const [dateFrom, setDateFrom] = useState('');
-  const [dateTo, setDateTo] = useState('');
+  const { data: venue, isLoading, hasError } = useFetch(`https://v2.api.noroff.dev/holidaze/venues/${id}?_owner=true&_bookings=true`);
+  const [dateFrom, setDateFrom] = useState(null);
+  const [dateTo, setDateTo] = useState(null);
   const [guests, setGuests] = useState(1);
+  const [dateOverlapError, setDateOverlapError] = useState(false);
   const { post, loading: bookingLoading, error: bookingError } = usePost('https://v2.api.noroff.dev/holidaze/bookings');
 
   const handleBooking = async (e) => {
     e.preventDefault();
 
+    if (dateOverlapError) {
+      alert('You cannot overlap with existing bookings.');
+      return;
+    }
+
     const bookingData = {
-      dateFrom,
-      dateTo,
+      dateFrom: dateFrom.toISOString(),
+      dateTo: dateTo.toISOString(),
       guests: parseInt(guests, 10),
       venueId: id,
     };
@@ -51,6 +59,30 @@ export const Venue = () => {
   const ownerAvatarUrl = venue.owner?.avatar?.url || '';
   const ownerAvatarAlt = venue.owner?.avatar?.alt || 'Owner avatar';
   const ownerName = venue.owner?.name || 'Unknown owner';
+
+  const isDateUnavailable = (date) => {
+    return venue.bookings.some(booking => {
+      const bookingStart = new Date(booking.dateFrom);
+      const bookingEnd = new Date(booking.dateTo);
+      return date >= bookingStart && date <= bookingEnd;
+    });
+  };
+
+  const handleDateFromChange = (date) => {
+    setDateFrom(date);
+    setDateTo(null);
+    setDateOverlapError(false);
+  };
+
+  const handleDateToChange = (date) => {
+    setDateTo(date);
+    const overlap = venue.bookings.some(booking => {
+      const bookingStart = new Date(booking.dateFrom);
+      const bookingEnd = new Date(booking.dateTo);
+      return (dateFrom <= bookingEnd && date >= bookingStart);
+    });
+    setDateOverlapError(overlap);
+  };
 
   return (
     <div className="bg-black min-h-screen flex flex-col items-center px-10">
@@ -94,12 +126,15 @@ export const Venue = () => {
               <label className="block text-white text-sm font-bold mb-2" htmlFor="date-from">
                 Date From
               </label>
-              <input
-                type="date"
-                id="date-from"
-                name="dateFrom"
-                value={dateFrom}
-                onChange={(e) => setDateFrom(e.target.value)}
+              <DatePicker
+                selected={dateFrom}
+                onChange={handleDateFromChange}
+                selectsStart
+                startDate={dateFrom}
+                endDate={dateTo}
+                minDate={new Date()}
+                filterDate={(date) => !isDateUnavailable(date)}
+                placeholderText="Select start date"
                 className="w-full p-2 border border-gray-600 bg-white text-grey rounded-md"
                 required
               />
@@ -108,15 +143,19 @@ export const Venue = () => {
               <label className="block text-white text-sm font-bold mb-2" htmlFor="date-to">
                 Date To
               </label>
-              <input
-                type="date"
-                id="date-to"
-                name="dateTo"
-                value={dateTo}
-                onChange={(e) => setDateTo(e.target.value)}
+              <DatePicker
+                selected={dateTo}
+                onChange={handleDateToChange}
+                selectsEnd
+                startDate={dateFrom}
+                endDate={dateTo}
+                minDate={dateFrom ? new Date(dateFrom.getTime() + 86400000) : new Date()}
+                filterDate={(date) => !isDateUnavailable(date)}
+                placeholderText="Select end date"
                 className="w-full p-2 border border-gray-600 bg-white text-grey rounded-md"
                 required
               />
+              {dateOverlapError && <div className="text-red-500 mt-2">You cannot overlap with existing bookings.</div>}
             </div>
             <div className="mb-4">
               <label className="block text-white text-sm font-bold mb-2" htmlFor="guests">

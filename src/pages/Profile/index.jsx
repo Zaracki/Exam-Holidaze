@@ -28,7 +28,7 @@ const Profile = () => {
 
   const handleSubmit = async () => {
     const updateData = {
-      avatar: { url: avatarUrl, alt: bookingsData.avatar.alt },
+      avatar: { url: avatarUrl, alt: bookingsData?.avatar?.alt || '' },
     };
     await put(updateData);
     window.location.reload();
@@ -63,7 +63,7 @@ const Profile = () => {
         <h1 className="text-3xl font-medium mb-6">Profile</h1>
         <div className="bg-white p-6">
           <div className="flex items-center mb-6">
-            {bookingsData.avatar ? (
+            {bookingsData?.avatar ? (
               <img
                 src={bookingsData.avatar.url}
                 alt={bookingsData.avatar.alt}
@@ -73,7 +73,7 @@ const Profile = () => {
               <div className="w-[100px] h-[100px] rounded-full bg-gray-300"></div>
             )}
             <div className="ml-4">
-              <h2 className="text-xl font-semibold">{bookingsData.name}</h2>
+              <h2 className="text-xl font-semibold">{bookingsData?.name || 'No Name'}</h2>
               <p className="text-gray-600">Host</p>
             </div>
           </div>
@@ -94,12 +94,12 @@ const Profile = () => {
         <h2 className="text-3xl font-medium mb-4 mt-6">My bookings</h2>
         <hr className="mt-3 mb-6 border-gray-400" />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {bookingsData.bookings && bookingsData.bookings.length > 0 ? (
+          {bookingsData?.bookings && bookingsData.bookings.length > 0 ? (
             bookingsData.bookings.map((booking) => (
               <div key={booking.id} className="bg-white p-4 rounded-lg shadow-md">
                 <img
-                  src={booking.venue.media[0].url}
-                  alt={booking.venue.media[0].alt}
+                  src={booking.venue.media[0]?.url || ''}
+                  alt={booking.venue.media[0]?.alt || 'No Image'}
                   className="w-full h-48 object-cover rounded-t-lg"
                 />
                 <p className="font-semibold">Venue: {booking.venue.name}</p>
