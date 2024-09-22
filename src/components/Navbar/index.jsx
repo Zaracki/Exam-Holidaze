@@ -1,13 +1,26 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import PrimaryButton from '../buttons/PrimaryButton';
 import SecondaryButton from '../buttons/SecondaryButton';
+import { isLoggedIn, remove } from '../../utils/LocalStorage';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+  const loggedIn = isLoggedIn();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleLogout = () => {
+    remove('userProfile');
+    remove('accessToken');
+    if (window.location.pathname === '/') {
+      window.location.reload();
+    } else {
+      navigate('/');
+    }
   };
 
   return (
@@ -26,41 +39,24 @@ const Navbar = () => {
         <ul className="hidden lg:flex items-center space-x-4 ml-auto">
           <li className="text-white hover:text-gray-400">
             <Link to="/">
-            Home
+              Home
             </Link>
           </li>
-          <li className="text-white hover:text-gray-400">
-            <Link to="/Profile">
-              Profile
-            </Link>
-          </li>
-          <li>
-            <Link to="/Login">
-              <PrimaryButton>
-                Login
-              </PrimaryButton>
-            </Link>            
-          </li>
-          <li>
-            <Link to="/Register">
-              <SecondaryButton>
-                Register
-              </SecondaryButton>
-            </Link>               
-          </li>
-        </ul>
-        {isOpen && (
-            <ul className="lg:hidden absolute top-16 left-0 w-full bg-gray-800 flex flex-col items-center space-y-4 py-4 z-50">
-              <li className="text-white hover:text-gray-400">
-                <Link to="/">
-                Home
-                </Link>
-              </li>
+          {loggedIn ? (
+            <>
               <li className="text-white hover:text-gray-400">
                 <Link to="/Profile">
                   Profile
                 </Link>
               </li>
+              <li>
+                <PrimaryButton onClick={handleLogout}>
+                  Logout
+                </PrimaryButton>
+              </li>
+            </>
+          ) : (
+            <>
               <li>
                 <Link to="/Login">
                   <PrimaryButton>
@@ -75,7 +71,48 @@ const Navbar = () => {
                   </SecondaryButton>
                 </Link>               
               </li>
-            </ul>
+            </>
+          )}
+        </ul>
+        {isOpen && (
+          <ul className="lg:hidden absolute top-16 left-0 w-full bg-gray-800 flex flex-col items-center space-y-4 py-4 z-50">
+            <li className="text-white hover:text-gray-400">
+              <Link to="/">
+                Home
+              </Link>
+            </li>
+            {loggedIn ? (
+              <>
+                <li className="text-white hover:text-gray-400">
+                  <Link to="/Profile">
+                    Profile
+                  </Link>
+                </li>
+                <li>
+                  <PrimaryButton onClick={handleLogout}>
+                    Logout
+                  </PrimaryButton>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Link to="/Login">
+                    <PrimaryButton>
+                      Login
+                    </PrimaryButton>
+                  </Link>            
+                </li>
+                <li>
+                  <Link to="/Register">
+                    <SecondaryButton>
+                      Register
+                    </SecondaryButton>
+                  </Link>               
+                </li>
+              </>
+            )}
+          </ul>
         )}
       </div>
     </nav>
