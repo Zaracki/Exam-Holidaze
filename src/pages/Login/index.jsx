@@ -1,69 +1,73 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import usePost from '../../hooks/usePost';
 import { save } from '../../utils/LocalStorage';
-import PrimaryButton from '../../components/buttons/PrimaryButton';
+import LoginForm from '../../components/form/LoginForm';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { post, loading, error } = usePost('https://v2.api.noroff.dev/auth/login');
+  const [formError, setFormError] = useState('');
+  const [loginSuccess, setLoginSuccess] = useState('');
+  const { post, loading, error } = usePost('https://v2.api.noroff.dev/auth/login?_holidaze=true');
+  const navigate = useNavigate();
+
+  const validateEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setFormError('');
+    setLoginSuccess('');
+
+    if (!validateEmail(email)) {
+      setFormError('Please enter a valid email address.');
+      return;
+    };
+
     const data = { email, password };
-    const result = await post(data);
-    if (result && result.data) {
-      save('userProfile', result.data);
-      save('accessToken', result.data.accessToken); // Save accessToken to local storage
+
+    try {
+      const result = await post(data);
+      if (result && result.data) {
+        save('userProfile', result.data);
+        save('accessToken', result.data.accessToken);
+        setLoginSuccess('Login successful! Redirecting...');
+        setTimeout(() => {
+          navigate('/');
+        }, 500); // Redirect after 0.5 seconds
+      } else if (result && result.errors && result.errors.length > 0) {
+        setFormError(result.errors[0].message);
+      } else {
+        setFormError('An error occurred. Please try again.');
+      }
+    } catch (err) {
+      setFormError('Network error. Please try again later.');
     }
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white shadow-lg rounded-lg">
-        <h1 className="text-2xl font-bold text-center text-gray-800">Login</h1>
-
-        <form className="space-y-4" onSubmit={handleSubmit}>
-          <div>
-            <label className="block text-sm font-medium text-gray-700" htmlFor="email">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700" htmlFor="password">
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <PrimaryButton className="w-full" type="submit" disabled={loading}>
-              {loading ? 'Logging in...' : 'Login'}
-            </PrimaryButton>
-          </div>
-        </form>
-        {error && <p className="text-red-500">{error.message}</p>}
-        <p className="text-center text-sm text-gray-600">
+      <div className="w-full max-w-md p-8 space-y-6 bg-black shadow-lg rounded-lg">
+        <h1 className="text-2xl font-bold text-center text-white">Login</h1>
+        <LoginForm
+          email={email}
+          password={password}
+          formError={formError}
+          loading={loading}
+          error={error}
+          handleSubmit={handleSubmit}
+          setEmail={setEmail}
+          setPassword={setPassword}
+        />
+        {loginSuccess && (
+          <p className="text-green-500 text-sm mt-1">{loginSuccess}</p>
+        )}
+        <p className="text-center text-sm text-gray-400">
           Not registered?{' '}
-          <a href="/register" className="text-indigo-600 hover:underline">
+          <a href="/register" className="text-white hover:underline">
             Register here
           </a>
         </p>

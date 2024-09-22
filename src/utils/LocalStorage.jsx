@@ -23,3 +23,9 @@ export const remove = (key) => {
     console.error(`Error removing ${key} from localStorage`, error);
   }
 };
+
+export const isLoggedIn = () => {
+  const userProfile = load('userProfile');
+  const accessToken = load('accessToken');
+  return userProfile !== null && accessToken !== null;
+};
