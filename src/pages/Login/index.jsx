@@ -9,7 +9,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [formError, setFormError] = useState('');
   const [loginSuccess, setLoginSuccess] = useState('');
-  const { post, loading, error } = usePost('https://v2.api.noroff.dev/auth/login');
+  const { post, loading, error } = usePost('https://v2.api.noroff.dev/auth/login?_holidaze=true');
   const navigate = useNavigate();
 
   const validateEmail = (email) => {
@@ -50,8 +50,8 @@ const Login = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white shadow-lg rounded-lg">
-        <h1 className="text-2xl font-bold text-center text-gray-800">Login</h1>
+      <div className="w-full max-w-md p-8 space-y-6 bg-black shadow-lg rounded-lg">
+        <h1 className="text-2xl font-bold text-center text-white">Login</h1>
         <LoginForm
           email={email}
           password={password}
@@ -65,9 +65,9 @@ const Login = () => {
         {loginSuccess && (
           <p className="text-green-500 text-sm mt-1">{loginSuccess}</p>
         )}
-        <p className="text-center text-sm text-gray-600">
+        <p className="text-center text-sm text-gray-400">
           Not registered?{' '}
-          <a href="/register" className="text-indigo-600 hover:underline">
+          <a href="/register" className="text-white hover:underline">
             Register here
           </a>
         </p>
