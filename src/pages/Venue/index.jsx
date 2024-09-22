@@ -5,6 +5,7 @@ import { useFetch } from '../../hooks/useFetch';
 import usePost from '../../hooks/usePost';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import MetaTags from '../../components/MetaTags';
 
 export const Venue = () => {
   const { id } = useParams();
@@ -110,13 +111,7 @@ export const Venue = () => {
             <hr className="mt-3 mb-3 border-gray-600" />
             <p className="mt-2">{venue.description}</p>
             <hr className="mt-3 mb-3 border-gray-600" />
-            <div className="flex items-center mt-4">
-              <img src="" alt="test" className="w-6 h-6" />
-              <div className="ml-4">
-                <h3 className="text-lg font-medium">test</h3>
-                <p>test</p>
-              </div>
-            </div>
+            <MetaTags meta={venue.meta} />
           </div>
         </div>
         <div className="w-full md:w-[400px] p-4 bg-[#282828] mt-8 md:mt-0 md:ml-8 rounded-md">
