@@ -1,7 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import InputField from '../inputs/InputField';
 import PrimaryButton from '../buttons/PrimaryButton';
 
 const BookingForm = ({ venue, handleBooking, bookingLoading, bookingError }) => {
@@ -9,6 +8,7 @@ const BookingForm = ({ venue, handleBooking, bookingLoading, bookingError }) => 
   const [dateTo, setDateTo] = useState(null);
   const [guests, setGuests] = useState(1);
   const [dateOverlapError, setDateOverlapError] = useState(false);
+  const [totalCost, setTotalCost] = useState(0);
 
   const isDateUnavailable = (date) => {
     return venue.bookings.some(booking => {
@@ -18,10 +18,20 @@ const BookingForm = ({ venue, handleBooking, bookingLoading, bookingError }) => 
     });
   };
 
+  const calculateTotalCost = (dateFrom, dateTo) => {
+    if (dateFrom && dateTo) {
+      const days = (dateTo - dateFrom) / (1000 * 60 * 60 * 24);
+      setTotalCost(days * venue.price);
+    } else {
+      setTotalCost(0);
+    }
+  };
+
   const handleDateFromChange = (date) => {
     setDateFrom(date);
     setDateTo(null);
     setDateOverlapError(false);
+    calculateTotalCost(date, null);
   };
 
   const handleDateToChange = (date) => {
@@ -32,6 +42,7 @@ const BookingForm = ({ venue, handleBooking, bookingLoading, bookingError }) => 
       return (dateFrom <= bookingEnd && date >= bookingStart);
     });
     setDateOverlapError(overlap);
+    calculateTotalCost(dateFrom, date);
   };
 
   return (
@@ -91,7 +102,7 @@ const BookingForm = ({ venue, handleBooking, bookingLoading, bookingError }) => 
           </select>
         </div>
         <div className="mb-4">
-          <p className="text-lg text-white font-semibold">Total: {venue.price}</p>
+          <p className="text-lg text-white font-semibold">Total: ${totalCost}</p>
         </div>
         {bookingError && <div className="text-red-500 mb-4">{bookingError}</div>}
         <PrimaryButton>
