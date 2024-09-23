@@ -21,7 +21,7 @@ const BookingForm = ({ venue, handleBooking, bookingLoading, bookingError }) => 
   const calculateTotalCost = (dateFrom, dateTo) => {
     if (dateFrom && dateTo) {
       const days = (dateTo - dateFrom) / (1000 * 60 * 60 * 24);
-      setTotalCost(days * venue.price);
+      setTotalCost(Math.floor(days * venue.price));
     } else {
       setTotalCost(0);
     }
