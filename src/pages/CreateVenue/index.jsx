@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
 import usePost from "../../hooks/usePost";
 import InputField from "../../components/inputs/InputField";

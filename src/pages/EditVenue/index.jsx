@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
 import usePut from "../../hooks/usePut";
 import { useFetch } from "../../hooks/useFetch";

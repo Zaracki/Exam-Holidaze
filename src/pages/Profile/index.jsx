@@ -12,8 +12,10 @@ const Profile = () => {
   const profileName = userProfile ? userProfile.name : 'defaultProfileName';
   const bookingsUrl = `https://v2.api.noroff.dev/holidaze/profiles/${profileName}?_bookings=true`;
   const venuesUrl = `https://v2.api.noroff.dev/holidaze/profiles/${profileName}/venues?_bookings=true`;
+
   const { data: bookingsData, isLoading: isLoadingBookings, hasError: hasErrorBookings } = useFetch(bookingsUrl);
   const { data: fetchedVenuesData, isLoading: isLoadingVenues, hasError: hasErrorVenues } = useFetch(venuesUrl);
+
   const { put, loading: putLoading, error: putError } = usePut(bookingsUrl);
   const { del, loading: deleteLoading, error: deleteError } = useDelete();
 
@@ -21,7 +23,7 @@ const Profile = () => {
   const [venuesData, setVenuesData] = useState([]);
   const [collapsedVenues, setCollapsedVenues] = useState({});
   const [submitError, setSubmitError] = useState(null);
-  const [deleteErrorState, setDeleteErrorState] = useState(null);
+
 
   useEffect(() => {
     if (fetchedVenuesData) {
@@ -29,9 +31,25 @@ const Profile = () => {
     }
   }, [fetchedVenuesData]);
 
+  const isValidUrl = (url) => {
+    try {
+      new URL(url);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  };
+
   const handleSubmit = async () => {
+    setSubmitError(null);
+
     if (!avatarUrl) {
       setSubmitError("Avatar URL cannot be empty.");
+      return;
+    }
+
+    if (!isValidUrl(avatarUrl)) {
+      setSubmitError("Invalid URL format. Please enter a valid URL.");
       return;
     }
 
@@ -39,12 +57,18 @@ const Profile = () => {
       const updateData = {
         avatar: { url: avatarUrl, alt: bookingsData?.avatar?.alt || '' },
       };
-      await put(updateData);
-      window.location.reload();
+
+      const updatedProfile = await put(updateData);
+
+      if (updatedProfile) {
+        bookingsData.avatar.url = avatarUrl;
+        setAvatarUrl('');  // Clear input field on successful update
+      }
     } catch (error) {
-      setSubmitError("Failed to update avatar.");
+      setSubmitError("Failed to update avatar. Please try again later.");
     }
   };
+
 
   const handleDelete = async (venueId) => {
     try {
@@ -52,15 +76,21 @@ const Profile = () => {
       const success = await del(deleteUrl);
       if (success) {
         setVenuesData((prevData) => prevData.filter((venue) => venue.id !== venueId));
+      } else {
+        throw new Error('Delete operation unsuccessful.');
       }
     } catch (error) {
-      setDeleteErrorState("Failed to delete venue.");
+      console.error("Failed to delete venue.", error);
     }
   };
 
   const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString(undefined, options);
+    try {
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString(undefined, options);
+    } catch {
+      return 'Invalid date';
+    }
   };
 
   const toggleCollapse = (venueId) => {
@@ -74,18 +104,19 @@ const Profile = () => {
     return <LoadingSpinner />;
   }
 
-  if (hasErrorBookings || hasErrorVenues) return <p>Error loading profile.</p>;
-
   return (
     <div className="text-white flex flex-col justify-center items-center min-h-screen bg-zinc-900 p-4">
       <div className="max-w-[632px] w-full mb-8">
         <h1 className="text-3xl font-medium mb-6">Profile</h1>
+        {(hasErrorBookings || hasErrorVenues) && (
+          <p className="text-red-500 mb-4">Error loading profile data. Please try again later.</p>
+        )}
         <div className="p-6 mb-5 bg-stone-800">
           <div className="flex items-center mb-6">
             {bookingsData?.avatar ? (
               <img
                 src={bookingsData.avatar.url}
-                alt={bookingsData.avatar.alt}
+                alt={bookingsData.avatar.alt || 'Avatar'}
                 className="w-[100px] h-[100px] rounded-full bg-gray-300 object-cover"
               />
             ) : (
@@ -104,10 +135,16 @@ const Profile = () => {
               onChange={(e) => setAvatarUrl(e.target.value)}
               className="border p-2 w-full text-black"
             />
+            {/* Display submit error if it exists */}
+            {submitError && <p className="text-red-500">{submitError}</p>}
           </div>
-          {submitError && <p className="text-red-500">{submitError}</p>}
+
+
+          {putError && <p className="text-red-500 mb-4">Failed to update avatar. Please try again later.</p>}
+
           <PrimaryButton onClick={handleSubmit}>Update Avatar</PrimaryButton>
         </div>
+
         {userProfile?.venueManager && (
           <>
             <div className="flex justify-center">
@@ -117,20 +154,26 @@ const Profile = () => {
             </div>
             <h2 className="text-3xl font-medium mb-4 mt-6">My Venues</h2>
             <hr className="mt-3 mb-6 border-gray-400" />
+            {deleteError && <p className="text-red-500 mb-4">Failed to delete venue. Please try again later.</p>}
+
             <div className="space-y-4">
               {venuesData && venuesData.length > 0 ? (
                 venuesData.map((venue) => (
                   <div key={venue.id} className="bg-stone-800 text-white p-4 relative">
-                    <p className="font-semibold">Name: {venue.name}</p>
-                    <p>Price: {venue.price}</p>
-                    <p>Max Guests: {venue.maxGuests}</p>
-                    <p>Rating: {venue.rating}</p>
-                    <p>Location: {venue.location.city}, {venue.location.country}</p>
+                    <p className="font-semibold">Name: {venue.name || 'Unnamed Venue'}</p>
+                    <p>Price: {venue.price || 'Not available'}</p>
+                    <p>Max Guests: {venue.maxGuests || 'N/A'}</p>
+                    <p>Rating: {venue.rating || '0'}</p>
+                    <p>
+                      Location: {venue.location?.city || 'Unknown City'}, {venue.location?.country || 'Unknown Country'}
+                    </p>
                     <div className="flex space-x-2 mt-2">
                       <Link to={`/EditVenue/${venue.id}`}>
                         <button className="text-sm bg-blue-500 text-white py-1 px-2">Edit</button>
                       </Link>
-                      <button onClick={() => handleDelete(venue.id)} className="text-sm bg-red-500 text-white py-1 px-2">Delete</button>
+                      <button onClick={() => handleDelete(venue.id)} className="text-sm bg-red-500 text-white py-1 px-2">
+                        Delete
+                      </button>
                     </div>
                     {venue.bookings && venue.bookings.length > 0 && (
                       <>
@@ -141,10 +184,10 @@ const Profile = () => {
                           <ul className="mt-4">
                             {venue.bookings.map((booking) => (
                               <li key={booking.id} className="border-t pt-2 mt-2">
-                                <p><strong>User:</strong> {booking.customer.name}</p>
+                                <p><strong>User:</strong> {booking.customer.name || 'Unknown User'}</p>
                                 <p><strong>From:</strong> {formatDate(booking.dateFrom)}</p>
                                 <p><strong>To:</strong> {formatDate(booking.dateTo)}</p>
-                                <p><strong>Guests:</strong> {booking.guests}</p>
+                                <p><strong>Guests:</strong> {booking.guests || 'N/A'}</p>
                               </li>
                             ))}
                           </ul>
@@ -159,6 +202,7 @@ const Profile = () => {
             </div>
           </>
         )}
+
         <h2 className="text-3xl font-medium mb-4 mt-6">My bookings</h2>
         <hr className="mt-3 mb-6 border-gray-400" />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -171,10 +215,10 @@ const Profile = () => {
                   className="w-full h-48 object-cover"
                 />
                 <div className="p-4">
-                  <p className="font-semibold">Venue: {booking.venue.name}</p>
+                  <p className="font-semibold">{booking.venue.name || 'Unnamed Venue'}</p>
                   <p>From: {formatDate(booking.dateFrom)}</p>
                   <p>To: {formatDate(booking.dateTo)}</p>
-                  <p>Guests: {booking.guests}</p>
+                  <p>Guests: {booking.guests || 'N/A'}</p>
                 </div>
               </div>
             ))

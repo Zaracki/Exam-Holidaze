@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
 import { useFetch } from "../../hooks/useFetch";
 import { API_URL, VENUES } from "../../api/Constants";

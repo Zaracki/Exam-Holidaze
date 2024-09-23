@@ -1,5 +1,3 @@
-import React from 'react';
-
 const MetaTags = ({ meta }) => {
   if (!meta) {
     return null;
