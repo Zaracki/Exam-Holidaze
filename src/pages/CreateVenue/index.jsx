@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
 import usePost from "../../hooks/usePost";
+import InputField from "../../components/inputs/InputField";
 
 const CreateVenue = () => {
   const [formData, setFormData] = useState({
@@ -62,20 +63,15 @@ const CreateVenue = () => {
         <h1 className="text-2xl font-bold text-center text-gray-800">Create Venue</h1>
 
         <form className="space-y-4" onSubmit={handleSubmit}>
-          <div>
-            <label className="block text-sm font-medium text-gray-700" htmlFor="title">
-              Title
-            </label>
-            <input
-              type="text"
-              id="title"
-              name="title"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              placeholder="Enter venue title"
-              value={formData.title}
-              onChange={handleChange}
-            />
-          </div>
+          <InputField
+            type="text"
+            id="title"
+            name="title"
+            label="Title"
+            placeholder="Enter venue title"
+            value={formData.title}
+            onChange={handleChange}
+          />
 
           <div>
             <label className="block text-sm font-medium text-gray-700" htmlFor="description">
@@ -92,81 +88,56 @@ const CreateVenue = () => {
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700" htmlFor="city">
-              City
-            </label>
-            <input
-              type="text"
-              id="city"
-              name="city"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              placeholder="Enter city"
-              value={formData.city}
-              onChange={handleChange}
-            />
-          </div>
+          <InputField
+            type="text"
+            id="city"
+            name="city"
+            label="City"
+            placeholder="Enter city"
+            value={formData.city}
+            onChange={handleChange}
+          />
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700" htmlFor="country">
-              Country
-            </label>
-            <input
-              type="text"
-              id="country"
-              name="country"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              placeholder="Enter country"
-              value={formData.country}
-              onChange={handleChange}
-            />
-          </div>
+          <InputField
+            type="text"
+            id="country"
+            name="country"
+            label="Country"
+            placeholder="Enter country"
+            value={formData.country}
+            onChange={handleChange}
+          />
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700" htmlFor="guests">
-              Guests
-            </label>
-            <input
-              type="number"
-              id="guests"
-              name="guests"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              placeholder="Enter number of guests"
-              value={formData.guests}
-              onChange={handleChange}
-              min="1"
-            />
-          </div>
+          <InputField
+            type="number"
+            id="guests"
+            name="guests"
+            label="Guests"
+            placeholder="Enter number of guests"
+            value={formData.guests}
+            onChange={handleChange}
+            min="1"
+          />
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700" htmlFor="pricePerNight">
-              Price per Night
-            </label>
-            <input
-              type="number"
-              id="pricePerNight"
-              name="pricePerNight"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              placeholder="Enter price per night"
-              value={formData.pricePerNight}
-              onChange={handleChange}
-            />
-          </div>
+          <InputField
+            type="number"
+            id="pricePerNight"
+            name="pricePerNight"
+            label="Price per Night"
+            placeholder="Enter price per night"
+            value={formData.pricePerNight}
+            onChange={handleChange}
+          />
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700" htmlFor="venueImgUrl">
-              Venue Image URL
-            </label>
-            <input
-              type="text"
-              id="venueImgUrl"
-              name="venueImgUrl"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              placeholder="Enter image URL"
-              value={formData.venueImgUrl}
-              onChange={handleChange}
-            />
-          </div>
+          <InputField
+            type="text"
+            id="venueImgUrl"
+            name="venueImgUrl"
+            label="Venue Image URL"
+            placeholder="Enter image URL"
+            value={formData.venueImgUrl}
+            onChange={handleChange}
+          />
 
           <div className="flex items-center">
             <input

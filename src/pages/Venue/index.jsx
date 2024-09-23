@@ -4,7 +4,7 @@ import usePost from '../../hooks/usePost';
 import VenueDetails from '../../components/VenueDetails';
 import BookingForm from '../../components/form/BookingForm';
 import LoadingSpinner from '../../components/LoadingSpinner';
-
+import { load } from '../../utils/LocalStorage';
 
 export const Venue = () => {
   const { id } = useParams();
@@ -48,6 +48,9 @@ export const Venue = () => {
     return <div>No venue data available.</div>;
   }
 
+  const currentUser = load('userProfile');
+  const isOwner = venue.owner && venue.owner.name === currentUser.name;
+
   return (
     <div className="bg-zinc-900 min-h-screen flex flex-col items-center px-10">
       <div className="w-full max-w-[1152px]">
@@ -59,7 +62,9 @@ export const Venue = () => {
       </div>
       <div className="flex flex-col md:flex-row justify-center items-start mt-8 max-w-[1152px] w-full">
         <VenueDetails venue={venue} />
-        <BookingForm venue={venue} handleBooking={handleBooking} bookingLoading={bookingLoading} bookingError={bookingError} />
+        {!isOwner && (
+          <BookingForm venue={venue} handleBooking={handleBooking} bookingLoading={bookingLoading} bookingError={bookingError} />
+        )}
       </div>
     </div>
   );

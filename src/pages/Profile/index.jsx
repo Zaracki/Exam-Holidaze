@@ -14,12 +14,14 @@ const Profile = () => {
   const venuesUrl = `https://v2.api.noroff.dev/holidaze/profiles/${profileName}/venues?_bookings=true`;
   const { data: bookingsData, isLoading: isLoadingBookings, hasError: hasErrorBookings } = useFetch(bookingsUrl);
   const { data: fetchedVenuesData, isLoading: isLoadingVenues, hasError: hasErrorVenues } = useFetch(venuesUrl);
-  const { put, loading, error } = usePut(bookingsUrl);
+  const { put, loading: putLoading, error: putError } = usePut(bookingsUrl);
   const { del, loading: deleteLoading, error: deleteError } = useDelete();
 
   const [avatarUrl, setAvatarUrl] = useState('');
   const [venuesData, setVenuesData] = useState([]);
   const [collapsedVenues, setCollapsedVenues] = useState({});
+  const [submitError, setSubmitError] = useState(null);
+  const [deleteErrorState, setDeleteErrorState] = useState(null);
 
   useEffect(() => {
     if (fetchedVenuesData) {
@@ -28,18 +30,31 @@ const Profile = () => {
   }, [fetchedVenuesData]);
 
   const handleSubmit = async () => {
-    const updateData = {
-      avatar: { url: avatarUrl, alt: bookingsData?.avatar?.alt || '' },
-    };
-    await put(updateData);
-    window.location.reload();
+    if (!avatarUrl) {
+      setSubmitError("Avatar URL cannot be empty.");
+      return;
+    }
+
+    try {
+      const updateData = {
+        avatar: { url: avatarUrl, alt: bookingsData?.avatar?.alt || '' },
+      };
+      await put(updateData);
+      window.location.reload();
+    } catch (error) {
+      setSubmitError("Failed to update avatar.");
+    }
   };
 
   const handleDelete = async (venueId) => {
-    const deleteUrl = `https://v2.api.noroff.dev/holidaze/venues/${venueId}`;
-    const success = await del(deleteUrl);
-    if (success) {
-      setVenuesData((prevData) => prevData.filter((venue) => venue.id !== venueId));
+    try {
+      const deleteUrl = `https://v2.api.noroff.dev/holidaze/venues/${venueId}`;
+      const success = await del(deleteUrl);
+      if (success) {
+        setVenuesData((prevData) => prevData.filter((venue) => venue.id !== venueId));
+      }
+    } catch (error) {
+      setDeleteErrorState("Failed to delete venue.");
     }
   };
 
@@ -55,7 +70,7 @@ const Profile = () => {
     }));
   };
 
-  if (isLoadingBookings || isLoadingVenues) {
+  if (isLoadingBookings || isLoadingVenues || putLoading || deleteLoading) {
     return <LoadingSpinner />;
   }
 
@@ -87,9 +102,10 @@ const Profile = () => {
               type="text"
               value={avatarUrl}
               onChange={(e) => setAvatarUrl(e.target.value)}
-              className="border p-2 w-full"
+              className="border p-2 w-full text-black"
             />
           </div>
+          {submitError && <p className="text-red-500">{submitError}</p>}
           <PrimaryButton onClick={handleSubmit}>Update Avatar</PrimaryButton>
         </div>
         {userProfile?.venueManager && (
