@@ -20,7 +20,7 @@ export const Home = () => {
   };
 
   return (
-    <div className="bg-black min-h-screen">
+    <div className="bg-zinc-900 min-h-screen">
       <div className="relative">
         <img
           src="src/assets/hero-image.png"

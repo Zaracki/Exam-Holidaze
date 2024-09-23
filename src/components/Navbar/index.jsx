@@ -24,7 +24,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-[#141414] h-16 px-4 flex items-center relative z-50">
+    <nav className="bg-zinc-900 h-16 px-4 flex items-center relative z-50">
       <div className="container mx-auto max-w-[1152px] flex items-center justify-between">
         <div className="text-white text-2xl font-bold">
           H
@@ -62,20 +62,20 @@ const Navbar = () => {
                   <PrimaryButton>
                     Login
                   </PrimaryButton>
-                </Link>            
+                </Link>
               </li>
               <li>
                 <Link to="/Register">
                   <SecondaryButton>
                     Register
                   </SecondaryButton>
-                </Link>               
+                </Link>
               </li>
             </>
           )}
         </ul>
         {isOpen && (
-          <ul className="lg:hidden absolute top-16 left-0 w-full bg-gray-800 flex flex-col items-center space-y-4 py-4 z-50">
+          <ul className="lg:hidden absolute top-16 left-0 w-full bg-zinc-900 flex flex-col items-center space-y-4 py-4 z-50">
             <li className="text-white hover:text-gray-400">
               <Link to="/">
                 Home
@@ -101,14 +101,14 @@ const Navbar = () => {
                     <PrimaryButton>
                       Login
                     </PrimaryButton>
-                  </Link>            
+                  </Link>
                 </li>
                 <li>
                   <Link to="/Register">
                     <SecondaryButton>
                       Register
                     </SecondaryButton>
-                  </Link>               
+                  </Link>
                 </li>
               </>
             )}
