@@ -51,7 +51,7 @@ export const Venue = () => {
     <div className="bg-black min-h-screen flex flex-col items-center px-10">
       <div className="w-full max-w-[1152px]">
         <img
-          src={venue.media && venue.media.length > 0 ? venue.media[0].url : 'src/assets/hero-image.png'}
+          src={venue.media && venue.media.length > 0 ? venue.media[0].url : '../../../src/assets/hero-image.png'}
           alt={venue.media && venue.media.length > 0 ? venue.media[0].alt : 'Hero'}
           className="w-full h-[500px] object-cover mx-auto"
         />

@@ -7,12 +7,18 @@ const VenueCard = ({ data }) => {
     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
   };
 
+  const locationText = data.location?.city && data.location?.country
+    ? `${data.location.city}, ${data.location.country}`
+    : "Location unavailable";
+
+  const venueName = name ? truncateText(name, 20) : "Venue name unavailable";
+
   return (
     <Link to={`/Venue/${id}`}>
       <div className="w-[331px] h-[339px] overflow-hidden relative bg-white">
         <div className="h-[233px] w-full">
           <img
-            src={data.media[0]?.url || "src/assets/test-img.jpeg"}
+            src={data.media[0]?.url || "src/assets/hero-image.png"}
             alt={data.media[0]?.alt || "Venue image"}
             className="w-full h-full object-cover"
           />
@@ -20,10 +26,10 @@ const VenueCard = ({ data }) => {
         <div className="pl-4 pt-2 flex relative">
           <div className="flex flex-col flex-1 pr-4">
             <p className="mb-1 text-xs">
-              {data.location.city}, {data.location.country}
+              {locationText}
             </p>
             <h2 className="text-2xl font-bold mb-1">
-              {truncateText(name, 20)}
+              {venueName}
             </h2>
             <h3 className="text-xl font-semibold">${price} / Night</h3>
           </div>

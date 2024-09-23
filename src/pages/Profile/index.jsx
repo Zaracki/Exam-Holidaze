@@ -161,16 +161,18 @@ const Profile = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {bookingsData?.bookings && bookingsData.bookings.length > 0 ? (
             bookingsData.bookings.map((booking) => (
-              <div key={booking.id} className="bg-white p-4 rounded-lg shadow-md">
+              <div key={booking.id} className="bg-white rounded-lg shadow-md">
                 <img
                   src={booking.venue.media[0]?.url || ''}
                   alt={booking.venue.media[0]?.alt || 'No Image'}
                   className="w-full h-48 object-cover rounded-t-lg"
                 />
-                <p className="font-semibold">Venue: {booking.venue.name}</p>
-                <p>From: {formatDate(booking.dateFrom)}</p>
-                <p>To: {formatDate(booking.dateTo)}</p>
-                <p>Guests: {booking.guests}</p>
+                <div className="p-4">
+                  <p className="font-semibold">Venue: {booking.venue.name}</p>
+                  <p>From: {formatDate(booking.dateFrom)}</p>
+                  <p>To: {formatDate(booking.dateTo)}</p>
+                  <p>Guests: {booking.guests}</p>
+                </div>
               </div>
             ))
           ) : (
