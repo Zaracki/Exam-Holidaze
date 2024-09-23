@@ -3,6 +3,7 @@ import PrimaryButton from "../../components/buttons/PrimaryButton";
 import { useFetch } from "../../hooks/useFetch";
 import { API_URL, VENUES } from "../../api/Constants";
 import { VenueList } from "../../components/lists/VenueList";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 export const Home = () => {
   const { data: venues, isLoading, hasError } = useFetch(`${API_URL}${VENUES}`);
@@ -45,7 +46,7 @@ export const Home = () => {
           </div>
         </div>
       </div>
-      {isLoading && <p>Loading venues...</p>}
+      {isLoading && <LoadingSpinner />}
       {hasError && <p>Something went wrong, please try again later.</p>}
       {!isLoading && !hasError && <VenueList products={filteredVenues.length > 0 ? filteredVenues : venues} />}
     </div>

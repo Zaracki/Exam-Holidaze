@@ -15,7 +15,7 @@ const VenueCard = ({ data }) => {
 
   return (
     <Link to={`/Venue/${id}`}>
-      <div className="w-[331px] h-[339px] overflow-hidden relative bg-white">
+      <div className="w-[331px] h-[339px] overflow-hidden relative bg-stone-800">
         <div className="h-[233px] w-full">
           <img
             src={data.media[0]?.url || "src/assets/hero-image.png"}
@@ -25,16 +25,16 @@ const VenueCard = ({ data }) => {
         </div>
         <div className="pl-4 pt-2 flex relative">
           <div className="flex flex-col flex-1 pr-4">
-            <p className="mb-1 text-xs">
+            <p className="mb-1 text-xs text-white">
               {locationText}
             </p>
-            <h2 className="text-2xl font-bold mb-1">
+            <h2 className="text-2xl font-bold mb-1 text-white">
               {venueName}
             </h2>
-            <h3 className="text-xl font-semibold">${price} / Night</h3>
+            <h3 className="text-xl font-semibold text-white">${price} / Night</h3>
           </div>
           <div className="absolute top-1 right-4">
-            <span className="text-xs">Rating {rating}</span>
+            <span className="text-xs text-white">Rating {rating}</span>
           </div>
         </div>
       </div>

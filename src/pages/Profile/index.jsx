@@ -62,10 +62,10 @@ const Profile = () => {
   if (hasErrorBookings || hasErrorVenues) return <p>Error loading profile.</p>;
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-grey p-4">
+    <div className="text-white flex flex-col justify-center items-center min-h-screen bg-zinc-900 p-4">
       <div className="max-w-[632px] w-full mb-8">
         <h1 className="text-3xl font-medium mb-6">Profile</h1>
-        <div className="bg-white border p-6 mb-5 bg-grey">
+        <div className="p-6 mb-5 bg-stone-800">
           <div className="flex items-center mb-6">
             {bookingsData?.avatar ? (
               <img
@@ -78,7 +78,7 @@ const Profile = () => {
             )}
             <div className="ml-4">
               <h2 className="text-xl font-semibold">{bookingsData?.name || 'No Name'}</h2>
-              <p className="text-gray-600">{userProfile?.venueManager ? 'Host' : 'Customer'}</p>
+              <p>{userProfile?.venueManager ? 'Host' : 'Customer'}</p>
             </div>
           </div>
           <div className="mb-4">
@@ -104,7 +104,7 @@ const Profile = () => {
             <div className="space-y-4">
               {venuesData && venuesData.length > 0 ? (
                 venuesData.map((venue) => (
-                  <div key={venue.id} className="bg-white p-4 rounded-lg shadow-md relative">
+                  <div key={venue.id} className="bg-stone-800 text-white p-4 relative">
                     <p className="font-semibold">Name: {venue.name}</p>
                     <p>Price: {venue.price}</p>
                     <p>Max Guests: {venue.maxGuests}</p>
@@ -112,9 +112,9 @@ const Profile = () => {
                     <p>Location: {venue.location.city}, {venue.location.country}</p>
                     <div className="flex space-x-2 mt-2">
                       <Link to={`/EditVenue/${venue.id}`}>
-                        <button className="text-sm bg-blue-500 text-white py-1 px-2 rounded">Edit</button>
+                        <button className="text-sm bg-blue-500 text-white py-1 px-2">Edit</button>
                       </Link>
-                      <button onClick={() => handleDelete(venue.id)} className="text-sm bg-red-500 text-white py-1 px-2 rounded">Delete</button>
+                      <button onClick={() => handleDelete(venue.id)} className="text-sm bg-red-500 text-white py-1 px-2">Delete</button>
                     </div>
                     {venue.bookings && venue.bookings.length > 0 && (
                       <>
@@ -148,11 +148,11 @@ const Profile = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {bookingsData?.bookings && bookingsData.bookings.length > 0 ? (
             bookingsData.bookings.map((booking) => (
-              <div key={booking.id} className="bg-white rounded-lg shadow-md">
+              <div key={booking.id} className="bg-stone-800">
                 <img
                   src={booking.venue.media[0]?.url || ''}
                   alt={booking.venue.media[0]?.alt || 'No Image'}
-                  className="w-full h-48 object-cover rounded-t-lg"
+                  className="w-full h-48 object-cover"
                 />
                 <div className="p-4">
                   <p className="font-semibold">Venue: {booking.venue.name}</p>

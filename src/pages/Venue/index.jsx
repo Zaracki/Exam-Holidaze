@@ -1,9 +1,10 @@
-import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useFetch } from '../../hooks/useFetch';
 import usePost from '../../hooks/usePost';
 import VenueDetails from '../../components/VenueDetails';
 import BookingForm from '../../components/form/BookingForm';
+import LoadingSpinner from '../../components/LoadingSpinner';
+
 
 export const Venue = () => {
   const { id } = useParams();
@@ -36,7 +37,7 @@ export const Venue = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   }
 
   if (hasError) {
