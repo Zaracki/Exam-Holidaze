@@ -37,7 +37,7 @@ const Login = () => {
         setLoginSuccess('Login successful! Redirecting...');
         setTimeout(() => {
           navigate('/');
-        }, 500); // Redirect after 0.5 seconds
+        }, 500);
       } else if (result && result.errors && result.errors.length > 0) {
         setFormError(result.errors[0].message);
       } else {
@@ -49,8 +49,8 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-black shadow-lg rounded-lg">
+    <div className="flex justify-center items-center min-h-screen bg-zinc-900">
+      <div className="w-full max-w-md p-8 space-y-6 bg-stone-800">
         <h1 className="text-2xl font-bold text-center text-white">Login</h1>
         <LoginForm
           email={email}
