@@ -65,7 +65,7 @@ const Login = () => {
         {loginSuccess && (
           <p className="text-green-500 text-sm mt-1">{loginSuccess}</p>
         )}
-        <p className="text-center text-sm text-gray-400">
+        <p className="text-center text-sm text-gray-300">
           Not registered?{' '}
           <a href="/register" className="text-white hover:underline">
             Register here

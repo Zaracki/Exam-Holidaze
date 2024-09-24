@@ -11,7 +11,7 @@ const VenueCard = ({ data }) => {
     ? `${data.location.city}, ${data.location.country}`
     : "Location unavailable";
 
-  const venueName = name ? truncateText(name, 20) : "Venue name unavailable";
+  const venueName = name ? truncateText(name, 20) : "Unnamed Venue";
 
   return (
     <Link to={`/Venue/${id}`}>

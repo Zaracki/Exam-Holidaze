@@ -7,7 +7,7 @@ const VenueDetails = ({ venue }) => {
   const ownerAvatarUrl = venue.owner?.avatar?.url || '';
   const ownerAvatarAlt = venue.owner?.avatar?.alt || 'Owner avatar';
   const ownerName = venue.owner?.name || 'Unknown owner';
-  const venueName = venue.name || 'Venue name unavailable';
+  const venueName = venue.name || 'Unnamed Venue';
   const venueDescription = venue.description || 'Description unavailable';
 
   return (

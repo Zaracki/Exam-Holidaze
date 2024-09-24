@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import usePost from '../../hooks/usePost';
 import PrimaryButton from '../../components/buttons/PrimaryButton';
 
 const Register = () => {
-  const { post, loading, error } = usePost('https://v2.api.noroff.dev/auth/register');
+  const navigate = useNavigate();
+  const { post, loading, error: apiError } = usePost('https://v2.api.noroff.dev/auth/register');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -13,6 +15,26 @@ const Register = () => {
     },
     venueManager: false,
   });
+  const [formErrors, setFormErrors] = useState({});
+  const [successMessage, setSuccessMessage] = useState('');
+
+  const validateForm = () => {
+    const errors = {};
+    if (!/^[a-zA-Z0-9_]+$/.test(formData.name)) {
+      errors.name = 'Name can only contain letters, numbers, and underscores.';
+    }
+    if (!/^.+@stud\.noroff\.no$/.test(formData.email)) {
+      errors.email = 'Email must be a valid stud.noroff.no address.';
+    }
+    if (formData.password.length < 8) {
+      errors.password = 'Password must be at least 8 characters long.';
+    }
+    if (formData.avatar.url && !/^https?:\/\/[^\s]+$/.test(formData.avatar.url)) {
+      errors.avatarUrl = 'Avatar URL must be a valid and accessible URL.';
+    }
+
+    return errors;
+  };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -31,12 +53,42 @@ const Register = () => {
         [name]: type === 'checkbox' ? checked : value,
       });
     }
+    setFormErrors({ ...formErrors, [name]: '' });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Perform client-side validation
+    const errors = validateForm();
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      return;
+    }
+
     const result = await post(formData);
-    console.log(result);
+
+    if (result && result.errors) {
+      const apiValidationErrors = {};
+      result.errors.forEach((error) => {
+        if (error.path && error.path.includes('avatar') && error.path.includes('url')) {
+          apiValidationErrors.avatarUrl = 'Avatar URL must be a valid and accessible URL.';
+        } else if (error.message.includes('Profile already exists')) {
+          apiValidationErrors.name = 'Username or email is already taken.';
+          apiValidationErrors.email = 'Username or email is already taken.';
+        } else if (error.message.includes('name')) {
+          apiValidationErrors.name = 'Username is already taken.';
+        } else if (error.message.includes('email')) {
+          apiValidationErrors.email = 'Email is already taken.';
+        }
+      });
+      setFormErrors(apiValidationErrors);
+    } else {
+      setSuccessMessage('Registration successful! Redirecting to login...');
+      setTimeout(() => {
+        navigate('/login');
+      }, 500);
+    }
   };
 
   return (
@@ -58,6 +110,7 @@ const Register = () => {
               value={formData.name}
               onChange={handleChange}
             />
+            {formErrors.name && <p className="text-red-500 text-xs mt-1">{formErrors.name}</p>}
           </div>
           <div>
             <label className="block text-sm font-medium" htmlFor="email">
@@ -72,6 +125,7 @@ const Register = () => {
               value={formData.email}
               onChange={handleChange}
             />
+            {formErrors.email && <p className="text-red-500 text-xs mt-1">{formErrors.email}</p>}
           </div>
           <div>
             <label className="block text-sm font-medium" htmlFor="password">
@@ -86,6 +140,7 @@ const Register = () => {
               value={formData.password}
               onChange={handleChange}
             />
+            {formErrors.password && <p className="text-red-500 text-xs mt-1">{formErrors.password}</p>}
           </div>
           <div>
             <label className="block text-sm font-medium" htmlFor="avatarUrl">
@@ -100,6 +155,7 @@ const Register = () => {
               value={formData.avatar.url}
               onChange={handleChange}
             />
+            {formErrors.avatarUrl && <p className="text-red-500 text-xs mt-1">{formErrors.avatarUrl}</p>}
           </div>
           <div className="flex items-center">
             <input
@@ -120,8 +176,8 @@ const Register = () => {
             </PrimaryButton>
           </div>
         </form>
-
-        {error && <p className="text-red-500">{error.message}</p>}
+        {apiError && <p className="text-red-500 text-center">{apiError.message}</p>}
+        {successMessage && <p className="text-green-500 text-center">{successMessage}</p>}
         <p className="text-center text-sm text-gray-300">
           Already registered?{' '}
           <a href="/login" className="text-white hover:underline">
