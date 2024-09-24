@@ -58,9 +58,9 @@ const CreateVenue = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white shadow-lg rounded-lg">
-        <h1 className="text-2xl font-bold text-center text-gray-800">Create Venue</h1>
+    <div className="flex justify-center items-center min-h-screen bg-zinc-900">
+      <div className="w-full max-w-md p-8 space-y-6 bg-stone-800">
+        <h1 className="text-2xl font-bold text-center text-white">Create Venue</h1>
 
         <form className="space-y-4" onSubmit={handleSubmit}>
           <InputField
@@ -74,7 +74,7 @@ const CreateVenue = () => {
           />
 
           <div>
-            <label className="block text-sm font-medium text-gray-700" htmlFor="description">
+            <label className="block text-sm font-medium text-white" htmlFor="description">
               Description
             </label>
             <textarea
@@ -148,7 +148,7 @@ const CreateVenue = () => {
               checked={formData.pets}
               onChange={handleChange}
             />
-            <label htmlFor="pets" className="ml-2 block text-sm text-gray-900">
+            <label htmlFor="pets" className="ml-2 block text-sm text-white">
               Pets allowed
             </label>
           </div>
@@ -162,7 +162,7 @@ const CreateVenue = () => {
               checked={formData.wifi}
               onChange={handleChange}
             />
-            <label htmlFor="wifi" className="ml-2 block text-sm text-gray-900">
+            <label htmlFor="wifi" className="ml-2 block text-sm text-white">
               Wifi available
             </label>
           </div>
@@ -176,7 +176,7 @@ const CreateVenue = () => {
               checked={formData.breakfast}
               onChange={handleChange}
             />
-            <label htmlFor="breakfast" className="ml-2 block text-sm text-gray-900">
+            <label htmlFor="breakfast" className="ml-2 block text-sm text-white">
               Breakfast included
             </label>
           </div>
@@ -190,7 +190,7 @@ const CreateVenue = () => {
               checked={formData.parking}
               onChange={handleChange}
             />
-            <label htmlFor="parking" className="ml-2 block text-sm text-gray-900">
+            <label htmlFor="parking" className="ml-2 block text-sm text-white">
               Parking available
             </label>
           </div>
