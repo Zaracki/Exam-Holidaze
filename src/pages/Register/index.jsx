@@ -59,7 +59,6 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Perform client-side validation
     const errors = validateForm();
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);

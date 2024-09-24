@@ -13,14 +13,17 @@ const VenueCard = ({ data }) => {
 
   const venueName = name ? truncateText(name, 20) : "Unnamed Venue";
 
+  const fallbackImage = "src/assets/hero-image.png";
+
   return (
     <Link to={`/Venue/${id}`}>
       <div className="w-[331px] h-[339px] overflow-hidden relative bg-stone-800">
         <div className="h-[233px] w-full">
           <img
-            src={data.media[0]?.url || "src/assets/hero-image.png"}
+            src={data.media[0]?.url || fallbackImage}
             alt={data.media[0]?.alt || "Venue image"}
             className="w-full h-full object-cover"
+            onError={(e) => { e.target.src = fallbackImage; }}
           />
         </div>
         <div className="pl-4 pt-2 flex relative">
