@@ -16,12 +16,11 @@ const VenueCard = ({ data }) => {
   const venuePrice = price !== undefined ? `$${price} / Night` : "Price unavailable";
   const venueRating = rating !== undefined ? `Rating ${rating}` : "Rating unavailable";
 
-
   const fallbackImage = "src/assets/fallback-img.png";
 
   return (
     <Link to={`/Venue/${id}`}>
-      <div className="w-[331px] h-[339px] overflow-hidden relative bg-stone-800">
+      <div className="w-[331px] h-[339px] overflow-hidden relative bg-stone-800 transform transition-transform duration-300 hover:scale-105 hover:shadow-lg">
         <div className="h-[233px] w-full">
           <img
             src={data.media[0]?.url || fallbackImage}
