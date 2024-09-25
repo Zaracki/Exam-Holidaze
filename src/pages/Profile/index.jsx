@@ -62,7 +62,7 @@ const Profile = () => {
 
       if (updatedProfile) {
         bookingsData.avatar.url = avatarUrl;
-        setAvatarUrl('');  // Clear input field on successful update
+        setAvatarUrl('');
       }
     } catch (error) {
       setSubmitError("Failed to update avatar. Please try again later.");
@@ -100,6 +100,8 @@ const Profile = () => {
     }));
   };
 
+  const fallbackImage = '../../../src/assets/hero-image.png';
+
   if (isLoadingBookings || isLoadingVenues || putLoading || deleteLoading) {
     return <LoadingSpinner />;
   }
@@ -135,7 +137,6 @@ const Profile = () => {
               onChange={(e) => setAvatarUrl(e.target.value)}
               className="border p-2 w-full text-black"
             />
-            {/* Display submit error if it exists */}
             {submitError && <p className="text-red-500">{submitError}</p>}
           </div>
 
@@ -155,39 +156,64 @@ const Profile = () => {
             <h2 className="text-3xl font-medium mb-4 mt-6">My Venues</h2>
             <hr className="mt-3 mb-6 border-gray-400" />
             {deleteError && <p className="text-red-500 mb-4">Failed to delete venue. Please try again later.</p>}
-
             <div className="space-y-4">
               {venuesData && venuesData.length > 0 ? (
                 venuesData.map((venue) => (
                   <div key={venue.id} className="bg-stone-800 text-white p-4 relative">
-                    <p className="font-semibold">Name: {venue.name || 'Unnamed Venue'}</p>
-                    <p>Price: {venue.price || 'Not available'}</p>
-                    <p>Max Guests: {venue.maxGuests || 'N/A'}</p>
-                    <p>Rating: {venue.rating || '0'}</p>
-                    <p>
-                      Location: {venue.location?.city || 'Unknown City'}, {venue.location?.country || 'Unknown Country'}
-                    </p>
-                    <div className="flex space-x-2 mt-2">
-                      <Link to={`/EditVenue/${venue.id}`}>
-                        <button className="text-sm bg-blue-500 text-white py-1 px-2">Edit</button>
-                      </Link>
-                      <button onClick={() => handleDelete(venue.id)} className="text-sm bg-red-500 text-white py-1 px-2">
-                        Delete
-                      </button>
+                    <div className="flex flex-col md:flex-row">
+                      {venue.media && venue.media.length > 0 && (
+                        <img
+                          src={venue.media[0].url}
+                          alt={venue.media[0].alt || 'Venue Image'}
+                          className="w-48 h-48 object-cover mr-0 md:mr-4 mb-4 md:mb-0"
+                        />
+                      )}
+                      <div>
+                        <p className="font-semibold">Name: {venue.name || 'Unnamed Venue'}</p>
+                        <p>Price: {venue.price || 'Not available'}</p>
+                        <p>Max Guests: {venue.maxGuests || 'N/A'}</p>
+                        <p>Rating: {venue.rating || '0'}</p>
+                        <p>
+                          Location: {venue.location?.city || 'Unknown City'},{' '}
+                          {venue.location?.country || 'Unknown Country'}
+                        </p>
+                        <div className="flex space-x-2 mt-2">
+                          <Link to={`/EditVenue/${venue.id}`}>
+                            <button className="text-sm bg-blue-500 text-white py-1 px-2">Edit</button>
+                          </Link>
+                          <button
+                            onClick={() => handleDelete(venue.id)}
+                            className="text-sm bg-red-500 text-white py-1 px-2"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </div>
                     </div>
                     {venue.bookings && venue.bookings.length > 0 && (
                       <>
-                        <button onClick={() => toggleCollapse(venue.id)} className="mt-4 text-blue-500">
+                        <button
+                          onClick={() => toggleCollapse(venue.id)}
+                          className="mt-4 text-blue-500"
+                        >
                           {collapsedVenues[venue.id] ? 'Hide Bookings' : 'Show Bookings'}
                         </button>
                         {collapsedVenues[venue.id] && (
                           <ul className="mt-4">
                             {venue.bookings.map((booking) => (
                               <li key={booking.id} className="border-t pt-2 mt-2">
-                                <p><strong>User:</strong> {booking.customer.name || 'Unknown User'}</p>
-                                <p><strong>From:</strong> {formatDate(booking.dateFrom)}</p>
-                                <p><strong>To:</strong> {formatDate(booking.dateTo)}</p>
-                                <p><strong>Guests:</strong> {booking.guests || 'N/A'}</p>
+                                <p>
+                                  <strong>User:</strong> {booking.customer.name || 'Unknown User'}
+                                </p>
+                                <p>
+                                  <strong>From:</strong> {formatDate(booking.dateFrom)}
+                                </p>
+                                <p>
+                                  <strong>To:</strong> {formatDate(booking.dateTo)}
+                                </p>
+                                <p>
+                                  <strong>Guests:</strong> {booking.guests || 'N/A'}
+                                </p>
                               </li>
                             ))}
                           </ul>
@@ -210,9 +236,10 @@ const Profile = () => {
             bookingsData.bookings.map((booking) => (
               <div key={booking.id} className="bg-stone-800">
                 <img
-                  src={booking.venue.media[0]?.url || ''}
+                  src={booking.venue.media[0]?.url || fallbackImage}
                   alt={booking.venue.media[0]?.alt || 'No Image'}
                   className="w-full h-48 object-cover"
+                  onError={(e) => { e.target.src = fallbackImage; }}
                 />
                 <div className="p-4">
                   <p className="font-semibold">{booking.venue.name || 'Unnamed Venue'}</p>
