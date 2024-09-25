@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
 import usePost from "../../hooks/usePost";
 import InputField from "../../components/inputs/InputField";
@@ -19,7 +20,9 @@ const CreateVenue = () => {
     parking: false,
   });
 
+  const [successMessage, setSuccessMessage] = useState("");
   const { post, loading, error } = usePost(`${API_URL}${VENUES}`);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -53,6 +56,12 @@ const CreateVenue = () => {
     try {
       const result = await post(venueData);
       console.log('Venue created:', result);
+      setSuccessMessage("Venue created, redirecting...");
+
+      setTimeout(() => {
+        navigate("/Profile");
+      }, 500);
+
     } catch (err) {
       console.error('Error creating venue:', err);
     }
@@ -204,6 +213,7 @@ const CreateVenue = () => {
         </form>
 
         {error && <p className="text-red-500">{error.message}</p>}
+        {successMessage && <p className="text-green-500">{successMessage}</p>}
       </div>
     </div>
   );

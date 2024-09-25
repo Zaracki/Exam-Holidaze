@@ -17,7 +17,7 @@ const VenueCard = ({ data }) => {
   const venueRating = rating !== undefined ? `Rating ${rating}` : "Rating unavailable";
 
 
-  const fallbackImage = "src/assets/hero-image.png";
+  const fallbackImage = "src/assets/fallback-img.png";
 
   return (
     <Link to={`/Venue/${id}`}>

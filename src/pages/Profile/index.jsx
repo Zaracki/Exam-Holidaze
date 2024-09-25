@@ -101,7 +101,7 @@ const Profile = () => {
     }));
   };
 
-  const fallbackImage = '../../../src/assets/hero-image.png';
+  const fallbackImage = '../../../src/assets/fallback-img.png';
 
   if (isLoadingBookings || isLoadingVenues || putLoading || deleteLoading) {
     return <LoadingSpinner />;
