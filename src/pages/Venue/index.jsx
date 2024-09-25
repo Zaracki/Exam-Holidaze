@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useFetch } from '../../hooks/useFetch';
 import usePost from '../../hooks/usePost';
@@ -14,12 +15,12 @@ export const Venue = () => {
   const { data: venue, isLoading, hasError } = useFetch(`https://v2.api.noroff.dev/holidaze/venues/${id}?_owner=true&_bookings=true`);
   const { post, loading: bookingLoading, error: bookingError } = usePost('https://v2.api.noroff.dev/holidaze/bookings');
   const loggedIn = isLoggedIn();
+  const [bookingSuccess, setBookingSuccess] = useState(false); // State for booking success
 
   const handleBooking = async (e, dateFrom, dateTo, guests, dateOverlapError) => {
     e.preventDefault();
 
     if (dateOverlapError) {
-      alert('You cannot overlap with existing bookings.');
       return;
     }
 
@@ -33,12 +34,13 @@ export const Venue = () => {
     try {
       const result = await post(bookingData);
       if (result) {
-        alert('Booking successful!');
+        setBookingSuccess(true);
       }
     } catch (error) {
       console.error('Booking failed:', error);
     }
   };
+
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -72,6 +74,7 @@ export const Venue = () => {
             handleBooking={handleBooking}
             bookingLoading={bookingLoading}
             bookingError={bookingError}
+            bookingSuccess={bookingSuccess}
           />
         ) : (
           <div className="w-full md:w-[400px] p-4 bg-[#282828] mt-8 md:mt-0 md:ml-8 rounded-md">

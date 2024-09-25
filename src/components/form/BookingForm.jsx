@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import PrimaryButton from '../buttons/PrimaryButton';
 
-const BookingForm = ({ venue, handleBooking, bookingLoading, bookingError }) => {
+const BookingForm = ({ venue, handleBooking, bookingLoading, bookingError, bookingSuccess }) => {
   const [dateFrom, setDateFrom] = useState(null);
   const [dateTo, setDateTo] = useState(null);
   const [guests, setGuests] = useState(1);
@@ -109,6 +109,11 @@ const BookingForm = ({ venue, handleBooking, bookingLoading, bookingError }) => 
           {bookingLoading ? 'Booking...' : 'Book'}
         </PrimaryButton>
       </form>
+      {bookingSuccess && (
+        <div className="text-green-500 mt-4">
+          Booking confirmed!
+        </div>
+      )}
     </div>
   );
 };
