@@ -52,7 +52,7 @@ export const Venue = () => {
     return <div>No venue data available.</div>;
   }
 
-  const fallbackImage = '../../../src/assets/hero-image.png';
+  const fallbackImage = '../../../src/assets/fallback-img.png';
 
   return (
     <div className="bg-zinc-900 min-h-screen flex flex-col items-center px-10">

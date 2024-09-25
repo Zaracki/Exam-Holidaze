@@ -2,15 +2,18 @@ import { useState, useEffect } from "react";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
 import usePut from "../../hooks/usePut";
 import { useFetch } from "../../hooks/useFetch";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import InputField from "../../components/inputs/InputField";
 import { API_URL, VENUES } from "../../api/Constants";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import useVenueValidation from "../../hooks/useVenueValidation";
 
 const EditVenue = () => {
   const { venueId } = useParams();
+  const navigate = useNavigate();
   const venueUrl = `${API_URL}${VENUES}/${venueId}`;
   const { data: initialData, isLoading, hasError } = useFetch(venueUrl);
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -24,6 +27,11 @@ const EditVenue = () => {
     breakfast: false,
     parking: false,
   });
+
+  const { validateForm, errors } = useVenueValidation(formData);
+  const { put, loading, error } = usePut(venueUrl);
+
+  const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
     if (initialData) {
@@ -43,8 +51,6 @@ const EditVenue = () => {
     }
   }, [initialData]);
 
-  const { put, loading, error } = usePut(venueUrl);
-
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
@@ -55,6 +61,10 @@ const EditVenue = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
 
     const venueData = {
       name: formData.title,
@@ -77,6 +87,12 @@ const EditVenue = () => {
     try {
       const result = await put(venueData);
       console.log('Venue updated:', result);
+      setSuccessMessage("Venue updated successfully, redirecting...");
+
+      setTimeout(() => {
+        navigate("/Profile");
+      }, 500);
+
     } catch (err) {
       console.error('Error updating venue:', err);
     }
@@ -100,6 +116,7 @@ const EditVenue = () => {
             value={formData.title}
             onChange={handleChange}
           />
+          {errors.title && <p className="mt-2 text-sm text-red-500">{errors.title}</p>}
 
           <div>
             <label className="block text-sm font-medium" htmlFor="description">
@@ -108,12 +125,14 @@ const EditVenue = () => {
             <textarea
               id="description"
               name="description"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-black"
+              className={`mt-1 block w-full px-3 py-2 border ${errors.description ? "border-red-500" : "border-gray-300"
+                } rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
               placeholder="Enter venue description"
               value={formData.description}
               onChange={handleChange}
               rows="4"
             />
+            {errors.description && <p className="mt-2 text-sm text-red-500">{errors.description}</p>}
           </div>
 
           <InputField
@@ -125,6 +144,7 @@ const EditVenue = () => {
             value={formData.city}
             onChange={handleChange}
           />
+          {errors.city && <p className="mt-2 text-sm text-red-500">{errors.city}</p>}
 
           <InputField
             type="text"
@@ -135,6 +155,7 @@ const EditVenue = () => {
             value={formData.country}
             onChange={handleChange}
           />
+          {errors.country && <p className="mt-2 text-sm text-red-500">{errors.country}</p>}
 
           <InputField
             type="number"
@@ -146,6 +167,7 @@ const EditVenue = () => {
             onChange={handleChange}
             min="1"
           />
+          {errors.guests && <p className="mt-2 text-sm text-red-500">{errors.guests}</p>}
 
           <InputField
             type="number"
@@ -155,7 +177,9 @@ const EditVenue = () => {
             placeholder="Enter price per night"
             value={formData.pricePerNight}
             onChange={handleChange}
+            min="1"
           />
+          {errors.pricePerNight && <p className="mt-2 text-sm text-red-500">{errors.pricePerNight}</p>}
 
           <InputField
             type="text"
@@ -166,6 +190,7 @@ const EditVenue = () => {
             value={formData.venueImgUrl}
             onChange={handleChange}
           />
+          {errors.venueImgUrl && <p className="mt-2 text-sm text-red-500">{errors.venueImgUrl}</p>}
 
           <div className="flex items-center">
             <input
@@ -231,6 +256,7 @@ const EditVenue = () => {
         </form>
 
         {error && <p className="text-red-500">{error.message}</p>}
+        {successMessage && <p className="text-green-500">{successMessage}</p>}
       </div>
     </div>
   );
