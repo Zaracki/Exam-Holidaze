@@ -59,7 +59,7 @@ export const Venue = () => {
       <div className="w-full max-w-[1152px]">
         <img
           src={venue.media && venue.media.length > 0 ? venue.media[0].url : fallbackImage}
-          alt={venue.media && venue.media.length > 0 ? venue.media[0].alt : 'Hero'}
+          alt={venue.media && venue.media.length > 0 ? venue.media[0].alt : 'No Image'}
           className="w-full h-[500px] object-cover mx-auto"
           onError={(e) => { e.target.src = fallbackImage; }}
         />

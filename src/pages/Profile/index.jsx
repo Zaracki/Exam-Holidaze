@@ -163,9 +163,10 @@ const Profile = () => {
                     <div className="flex flex-col md:flex-row">
                       {venue.media && venue.media.length > 0 && (
                         <img
-                          src={venue.media[0].url}
-                          alt={venue.media[0].alt || 'Venue Image'}
+                          src={venue.media && venue.media.length > 0 ? venue.media[0].url : fallbackImage}
+                          alt={venue.media && venue.media.length > 0 ? venue.media[0].alt : 'No Image'}
                           className="w-48 h-48 object-cover mr-0 md:mr-4 mb-4 md:mb-0"
+                          onError={(e) => { e.target.src = fallbackImage; }}
                         />
                       )}
                       <div>
