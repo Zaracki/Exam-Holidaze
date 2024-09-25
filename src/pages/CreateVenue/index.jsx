@@ -2,6 +2,7 @@ import { useState } from "react";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
 import usePost from "../../hooks/usePost";
 import InputField from "../../components/inputs/InputField";
+import { API_URL, VENUES } from "../../api/Constants";
 
 const CreateVenue = () => {
   const [formData, setFormData] = useState({
@@ -18,7 +19,7 @@ const CreateVenue = () => {
     parking: false,
   });
 
-  const { post, loading, error } = usePost('https://v2.api.noroff.dev/holidaze/venues');
+  const { post, loading, error } = usePost(`${API_URL}${VENUES}`);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;

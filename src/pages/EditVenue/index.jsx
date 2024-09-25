@@ -4,10 +4,12 @@ import usePut from "../../hooks/usePut";
 import { useFetch } from "../../hooks/useFetch";
 import { useParams } from "react-router-dom";
 import InputField from "../../components/inputs/InputField";
+import { API_URL, VENUES } from "../../api/Constants";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const EditVenue = () => {
   const { venueId } = useParams();
-  const venueUrl = `https://v2.api.noroff.dev/holidaze/venues/${venueId}`;
+  const venueUrl = `${API_URL}${VENUES}/${venueId}`;
   const { data: initialData, isLoading, hasError } = useFetch(venueUrl);
   const [formData, setFormData] = useState({
     title: "",
@@ -80,7 +82,7 @@ const EditVenue = () => {
     }
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <LoadingSpinner />;
   if (hasError) return <p>Error loading venue data.</p>;
 
   return (

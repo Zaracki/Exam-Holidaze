@@ -6,12 +6,13 @@ import { Link } from "react-router-dom";
 import usePut from "../../hooks/usePut";
 import useDelete from "../../hooks/useDelete";
 import LoadingSpinner from '../../components/LoadingSpinner';
+import { API_URL, API_URL_PROFILE, VENUES } from "../../api/Constants";
 
 const Profile = () => {
   const userProfile = load('userProfile');
   const profileName = userProfile ? userProfile.name : 'defaultProfileName';
-  const bookingsUrl = `https://v2.api.noroff.dev/holidaze/profiles/${profileName}?_bookings=true`;
-  const venuesUrl = `https://v2.api.noroff.dev/holidaze/profiles/${profileName}/venues?_bookings=true`;
+  const bookingsUrl = `${API_URL_PROFILE}/${profileName}?_bookings=true`;
+  const venuesUrl = `${API_URL_PROFILE}/${profileName}${VENUES}?_bookings=true`;
 
   const { data: bookingsData, isLoading: isLoadingBookings, hasError: hasErrorBookings } = useFetch(bookingsUrl);
   const { data: fetchedVenuesData, isLoading: isLoadingVenues, hasError: hasErrorVenues } = useFetch(venuesUrl);
@@ -72,7 +73,7 @@ const Profile = () => {
 
   const handleDelete = async (venueId) => {
     try {
-      const deleteUrl = `https://v2.api.noroff.dev/holidaze/venues/${venueId}`;
+      const deleteUrl = `${API_URL}${VENUES}/${venueId}`;
       const success = await del(deleteUrl);
       if (success) {
         setVenuesData((prevData) => prevData.filter((venue) => venue.id !== venueId));

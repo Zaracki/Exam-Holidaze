@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import usePost from '../../hooks/usePost';
 import PrimaryButton from '../../components/buttons/PrimaryButton';
+import { API_URL_REGISTER } from '../../api/Constants';
 
 const Register = () => {
   const navigate = useNavigate();
-  const { post, loading, error: apiError } = usePost('https://v2.api.noroff.dev/auth/register');
+  const { post, loading, error: apiError } = usePost(`${API_URL_REGISTER}`);
   const [formData, setFormData] = useState({
     name: '',
     email: '',

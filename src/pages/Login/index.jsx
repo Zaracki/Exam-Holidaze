@@ -3,13 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import usePost from '../../hooks/usePost';
 import { save } from '../../utils/LocalStorage';
 import LoginForm from '../../components/form/LoginForm';
+import { API_URL_LOGIN } from '../../api/Constants';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [formError, setFormError] = useState('');
   const [loginSuccess, setLoginSuccess] = useState('');
-  const { post, loading, error } = usePost('https://v2.api.noroff.dev/auth/login?_holidaze=true');
+  const { post, loading, error } = usePost(`${API_URL_LOGIN}`);
   const navigate = useNavigate();
 
   const validateEmail = (email) => {
