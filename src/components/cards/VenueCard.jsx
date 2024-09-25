@@ -13,6 +13,10 @@ const VenueCard = ({ data }) => {
 
   const venueName = name ? truncateText(name, 20) : "Unnamed Venue";
 
+  const venuePrice = price !== undefined ? `$${price} / Night` : "Price unavailable";
+  const venueRating = rating !== undefined ? `Rating ${rating}` : "Rating unavailable";
+
+
   const fallbackImage = "src/assets/hero-image.png";
 
   return (
@@ -34,10 +38,10 @@ const VenueCard = ({ data }) => {
             <h2 className="text-2xl font-bold mb-1 text-white">
               {venueName}
             </h2>
-            <h3 className="text-xl font-semibold text-white">${price} / Night</h3>
+            <h3 className="text-xl font-semibold text-white">{venuePrice}</h3>
           </div>
           <div className="absolute top-1 right-4">
-            <span className="text-xs text-white">Rating {rating}</span>
+            <span className="text-xs text-white">{venueRating}</span>
           </div>
         </div>
       </div>
