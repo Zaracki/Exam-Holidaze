@@ -9,6 +9,7 @@ import { isLoggedIn } from '../../utils/LocalStorage';
 import { Link } from 'react-router-dom';
 import PrimaryButton from '../../components/buttons/PrimaryButton';
 import SecondaryButton from '../../components/buttons/SecondaryButton';
+import fallbackImage from '../../assets/fallback-img.png';
 
 export const Venue = () => {
   const { id } = useParams();
@@ -53,8 +54,6 @@ export const Venue = () => {
   if (!venue) {
     return <div>No venue data available.</div>;
   }
-
-  const fallbackImage = '../../../src/assets/fallback-img.png';
 
   return (
     <div className="bg-zinc-900 min-h-screen flex flex-col items-center px-10">

@@ -4,7 +4,7 @@ import { useFetch } from "../../hooks/useFetch";
 import { API_URL, VENUES } from "../../api/Constants";
 import { VenueList } from "../../components/lists/VenueList";
 import LoadingSpinner from "../../components/LoadingSpinner";
-import HeroImage from "../../assets/hero-image.png"
+import heroImage from "../../assets/hero-image.png"
 
 export const Home = () => {
   const { data: venues, isLoading, hasError } = useFetch(`${API_URL}${VENUES}`);
@@ -24,7 +24,7 @@ export const Home = () => {
     <div className="bg-zinc-900 min-h-screen">
       <div className="relative">
         <img
-          src={HeroImage}
+          src={heroImage}
           alt="Hero"
           className="w-full h-[500px] object-cover mx-auto"
         />

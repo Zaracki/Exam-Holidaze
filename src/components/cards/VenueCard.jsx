@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import fallbackImage from "../../assets/fallback-img.png"
 
 const VenueCard = ({ data }) => {
   const { id, name, price, rating } = data;
@@ -15,8 +16,6 @@ const VenueCard = ({ data }) => {
 
   const venuePrice = price !== undefined ? `$${price} / Night` : "Price unavailable";
   const venueRating = rating !== undefined ? `Rating ${rating}` : "Rating unavailable";
-
-  const fallbackImage = "src/assets/fallback-img.png";
 
   return (
     <Link to={`/Venue/${id}`}>
