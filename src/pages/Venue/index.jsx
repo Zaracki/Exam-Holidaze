@@ -13,7 +13,7 @@ export const Venue = () => {
   const { data: venue, isLoading, hasError } = useFetch(`https://v2.api.noroff.dev/holidaze/venues/${id}?_owner=true&_bookings=true`);
   const { post, loading: bookingLoading, error: bookingError } = usePost('https://v2.api.noroff.dev/holidaze/bookings');
   const loggedIn = isLoggedIn();
-  const [bookingSuccess, setBookingSuccess] = useState(false); // State for booking success
+  const [bookingSuccess, setBookingSuccess] = useState(false);
 
   const handleBooking = async (e, dateFrom, dateTo, guests, dateOverlapError) => {
     e.preventDefault();

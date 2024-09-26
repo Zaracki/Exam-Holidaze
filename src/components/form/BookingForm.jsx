@@ -56,6 +56,7 @@ const BookingForm = ({ venue, handleBooking, bookingLoading, bookingError, booki
             Date From
           </label>
           <DatePicker
+            id="date-from"
             selected={dateFrom}
             onChange={handleDateFromChange}
             selectsStart
@@ -73,6 +74,7 @@ const BookingForm = ({ venue, handleBooking, bookingLoading, bookingError, booki
             Date To
           </label>
           <DatePicker
+            id="date-to"
             selected={dateTo}
             onChange={handleDateToChange}
             selectsEnd

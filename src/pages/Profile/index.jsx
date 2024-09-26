@@ -130,9 +130,11 @@ const Profile = () => {
             </div>
           </div>
           <div className="mb-4">
-            <label>Avatar URL:</label>
+            <label htmlFor="avatar-url">Avatar URL:</label> {/* Associate label with input */}
             <input
               type="text"
+              id="avatar-url"
+              name="avatar-url"
               value={avatarUrl}
               onChange={(e) => setAvatarUrl(e.target.value)}
               className="border p-2 w-full text-black"
