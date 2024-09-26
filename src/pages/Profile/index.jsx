@@ -125,7 +125,7 @@ const Profile = () => {
               <div className="w-[100px] h-[100px] rounded-full bg-gray-300"></div>
             )}
             <div className="ml-4">
-              <h2 className="text-xl font-semibold">{bookingsData?.name || 'No Name'}</h2>
+              <h2 className="text-2xl font-semibold">{bookingsData?.name || 'No Name'}</h2>
               <p>{userProfile?.venueManager ? 'Host' : 'Customer'}</p>
             </div>
           </div>
@@ -155,7 +155,7 @@ const Profile = () => {
                 <PrimaryButton>Create Venue</PrimaryButton>
               </Link>
             </div>
-            <h2 className="text-3xl font-medium mb-4 mt-6">My Venues</h2>
+            <h2 className="text-2xl font-medium mb-4 mt-6">My Venues</h2>
             <hr className="mt-3 mb-6 border-gray-400" />
             {deleteError && <p className="text-red-400 mb-4">Failed to delete venue. Please try again later.</p>}
             <div className="space-y-4">
@@ -197,7 +197,7 @@ const Profile = () => {
                       <>
                         <button
                           onClick={() => toggleCollapse(venue.id)}
-                          className="mt-4 text-blue-500"
+                          className="mt-4 text-blue-500 hover:underline"
                         >
                           {collapsedVenues[venue.id] ? 'Hide Bookings' : 'Show Bookings'}
                         </button>
@@ -232,7 +232,7 @@ const Profile = () => {
           </>
         )}
 
-        <h2 className="text-3xl font-medium mb-4 mt-6">My bookings</h2>
+        <h2 className="text-2xl font-medium mb-4 mt-6">My bookings</h2>
         <hr className="mt-3 mb-6 border-gray-400" />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {bookingsData?.bookings && bookingsData.bookings.length > 0 ? (
@@ -245,7 +245,7 @@ const Profile = () => {
                   onError={(e) => { e.target.src = fallbackImage; }}
                 />
                 <div className="p-4">
-                  <p className="font-semibold">{booking.venue.name || 'Unnamed Venue'}</p>
+                  <h3 className="font-semibold text-xl">{booking.venue.name || 'Unnamed Venue'}</h3>
                   <p>From: {formatDate(booking.dateFrom)}</p>
                   <p>To: {formatDate(booking.dateTo)}</p>
                   <p>Guests: {booking.guests || 'N/A'}</p>
