@@ -7,6 +7,7 @@ import usePut from "../../hooks/usePut";
 import useDelete from "../../hooks/useDelete";
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { API_URL, API_URL_PROFILE, VENUES } from "../../api/Constants";
+import fallbackImage from "../../assets/fallback-img.png";
 
 const Profile = () => {
   const userProfile = load('userProfile');
@@ -100,8 +101,6 @@ const Profile = () => {
       [venueId]: !prev[venueId],
     }));
   };
-
-  const fallbackImage = '../../../src/assets/fallback-img.png';
 
   if (isLoadingBookings || isLoadingVenues || putLoading || deleteLoading) {
     return <LoadingSpinner />;
