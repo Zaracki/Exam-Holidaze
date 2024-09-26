@@ -23,14 +23,14 @@ const LoginForm = ({ email, password, formError, loading, error, handleSubmit, s
         label="Password"
       />
       {formError && (
-        <p className="text-red-500 text-sm mt-1">{formError}</p>
+        <p className="text-red-400 text-sm mt-1">{formError}</p>
       )}
       <div>
         <PrimaryButton className="w-full" type="submit" disabled={loading}>
           {loading ? 'Logging in...' : 'Login'}
         </PrimaryButton>
       </div>
-      {error && <p className="text-red-500">{error.message}</p>}
+      {error && <p className="text-red-400">{error.message}</p>}
     </form>
   );
 };

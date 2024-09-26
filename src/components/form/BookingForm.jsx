@@ -82,7 +82,7 @@ const BookingForm = ({ venue, handleBooking, bookingLoading, bookingError, booki
             className="w-full p-2 border border-gray-600 bg-white text-grey rounded-md"
             required
           />
-          {dateOverlapError && <div className="text-red-500 mt-2">You cannot overlap with existing bookings.</div>}
+          {dateOverlapError && <div className="text-red-400 mt-2">You cannot overlap with existing bookings.</div>}
         </div>
         <div className="mb-4">
           <label className="block text-white text-sm font-bold mb-2" htmlFor="guests">
@@ -104,7 +104,7 @@ const BookingForm = ({ venue, handleBooking, bookingLoading, bookingError, booki
         <div className="mb-4">
           <p className="text-lg text-white font-semibold">Total: ${totalCost}</p>
         </div>
-        {bookingError && <div className="text-red-500 mb-4">{bookingError}</div>}
+        {bookingError && <div className="text-red-400 mb-4">{bookingError}</div>}
         <PrimaryButton>
           {bookingLoading ? 'Booking...' : 'Book'}
         </PrimaryButton>

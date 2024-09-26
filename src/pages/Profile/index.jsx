@@ -112,7 +112,7 @@ const Profile = () => {
       <div className="max-w-[632px] w-full mb-8">
         <h1 className="text-3xl font-medium mb-6">Profile</h1>
         {(hasErrorBookings || hasErrorVenues) && (
-          <p className="text-red-500 mb-4">Error loading profile data. Please try again later.</p>
+          <p className="text-red-400 mb-4">Error loading profile data. Please try again later.</p>
         )}
         <div className="p-6 mb-5 bg-stone-800">
           <div className="flex items-center mb-6">
@@ -138,11 +138,11 @@ const Profile = () => {
               onChange={(e) => setAvatarUrl(e.target.value)}
               className="border p-2 w-full text-black"
             />
-            {submitError && <p className="text-red-500">{submitError}</p>}
+            {submitError && <p className="text-red-400">{submitError}</p>}
           </div>
 
 
-          {putError && <p className="text-red-500 mb-4">Failed to update avatar. Please try again later.</p>}
+          {putError && <p className="text-red-400 mb-4">Failed to update avatar. Please try again later.</p>}
 
           <PrimaryButton onClick={handleSubmit}>Update Avatar</PrimaryButton>
         </div>
@@ -156,7 +156,7 @@ const Profile = () => {
             </div>
             <h2 className="text-3xl font-medium mb-4 mt-6">My Venues</h2>
             <hr className="mt-3 mb-6 border-gray-400" />
-            {deleteError && <p className="text-red-500 mb-4">Failed to delete venue. Please try again later.</p>}
+            {deleteError && <p className="text-red-400 mb-4">Failed to delete venue. Please try again later.</p>}
             <div className="space-y-4">
               {venuesData && venuesData.length > 0 ? (
                 venuesData.map((venue) => (

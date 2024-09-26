@@ -110,7 +110,7 @@ const Register = () => {
               value={formData.name}
               onChange={handleChange}
             />
-            {formErrors.name && <p className="text-red-500 text-xs mt-1">{formErrors.name}</p>}
+            {formErrors.name && <p className="text-red-400 text-xs mt-1">{formErrors.name}</p>}
           </div>
           <div>
             <label className="block text-sm font-medium" htmlFor="email">
@@ -125,7 +125,7 @@ const Register = () => {
               value={formData.email}
               onChange={handleChange}
             />
-            {formErrors.email && <p className="text-red-500 text-xs mt-1">{formErrors.email}</p>}
+            {formErrors.email && <p className="text-red-400 text-xs mt-1">{formErrors.email}</p>}
           </div>
           <div>
             <label className="block text-sm font-medium" htmlFor="password">
@@ -140,7 +140,7 @@ const Register = () => {
               value={formData.password}
               onChange={handleChange}
             />
-            {formErrors.password && <p className="text-red-500 text-xs mt-1">{formErrors.password}</p>}
+            {formErrors.password && <p className="text-red-400 text-xs mt-1">{formErrors.password}</p>}
           </div>
           <div>
             <label className="block text-sm font-medium" htmlFor="avatarUrl">
@@ -155,7 +155,7 @@ const Register = () => {
               value={formData.avatar.url}
               onChange={handleChange}
             />
-            {formErrors.avatarUrl && <p className="text-red-500 text-xs mt-1">{formErrors.avatarUrl}</p>}
+            {formErrors.avatarUrl && <p className="text-red-400 text-xs mt-1">{formErrors.avatarUrl}</p>}
           </div>
           <div className="flex items-center">
             <input
@@ -176,7 +176,7 @@ const Register = () => {
             </PrimaryButton>
           </div>
         </form>
-        {apiError && <p className="text-red-500 text-center">{apiError.message}</p>}
+        {apiError && <p className="text-red-400 text-center">{apiError.message}</p>}
         {successMessage && <p className="text-green-500 text-center">{successMessage}</p>}
         <p className="text-center text-sm text-gray-300">
           Already registered?{' '}

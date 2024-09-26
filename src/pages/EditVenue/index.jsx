@@ -97,7 +97,7 @@ const EditVenue = () => {
           loading={loading}
           buttonText="Edit Venue"
         />
-        {error && <p className="text-red-500">{error.message}</p>}
+        {error && <p className="text-red-400">{error.message}</p>}
         {successMessage && <p className="text-green-500">{successMessage}</p>}
       </div>
     </div>

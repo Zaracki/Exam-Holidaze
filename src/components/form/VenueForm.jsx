@@ -28,7 +28,7 @@ const VenueForm = ({
         value={formData.title}
         onChange={handleChange}
       />
-      {errors.title && <p className="mt-2 text-sm text-red-500">{errors.title}</p>}
+      {errors.title && <p className="mt-2 text-sm text-red-400">{errors.title}</p>}
 
       <div>
         <label className="block text-sm font-medium text-white" htmlFor="description">
@@ -44,7 +44,7 @@ const VenueForm = ({
           onChange={handleChange}
           rows="4"
         />
-        {errors.description && <p className="mt-2 text-sm text-red-500">{errors.description}</p>}
+        {errors.description && <p className="mt-2 text-sm text-red-400">{errors.description}</p>}
       </div>
 
       <InputField
@@ -56,7 +56,7 @@ const VenueForm = ({
         value={formData.city}
         onChange={handleChange}
       />
-      {errors.city && <p className="mt-2 text-sm text-red-500">{errors.city}</p>}
+      {errors.city && <p className="mt-2 text-sm text-red-400">{errors.city}</p>}
 
       <InputField
         type="text"
@@ -67,7 +67,7 @@ const VenueForm = ({
         value={formData.country}
         onChange={handleChange}
       />
-      {errors.country && <p className="mt-2 text-sm text-red-500">{errors.country}</p>}
+      {errors.country && <p className="mt-2 text-sm text-red-400">{errors.country}</p>}
 
       <InputField
         type="number"
@@ -79,7 +79,7 @@ const VenueForm = ({
         onChange={handleChange}
         min="1"
       />
-      {errors.guests && <p className="mt-2 text-sm text-red-500">{errors.guests}</p>}
+      {errors.guests && <p className="mt-2 text-sm text-red-400">{errors.guests}</p>}
 
       <InputField
         type="number"
@@ -91,7 +91,7 @@ const VenueForm = ({
         onChange={handleChange}
         min="1"
       />
-      {errors.pricePerNight && <p className="mt-2 text-sm text-red-500">{errors.pricePerNight}</p>}
+      {errors.pricePerNight && <p className="mt-2 text-sm text-red-400">{errors.pricePerNight}</p>}
 
       <InputField
         type="text"
@@ -102,7 +102,7 @@ const VenueForm = ({
         value={formData.venueImgUrl}
         onChange={handleChange}
       />
-      {errors.venueImgUrl && <p className="mt-2 text-sm text-red-500">{errors.venueImgUrl}</p>}
+      {errors.venueImgUrl && <p className="mt-2 text-sm text-red-400">{errors.venueImgUrl}</p>}
 
       <div className="flex items-center">
         <input
