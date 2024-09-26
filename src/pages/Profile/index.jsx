@@ -130,7 +130,7 @@ const Profile = () => {
             </div>
           </div>
           <div className="mb-4">
-            <label htmlFor="avatar-url">Avatar URL:</label> {/* Associate label with input */}
+            <label htmlFor="avatar-url">Avatar URL:</label>
             <input
               type="text"
               id="avatar-url"
