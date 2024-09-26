@@ -2,8 +2,10 @@ import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import PrimaryButton from '../buttons/PrimaryButton';
+import SecondaryButton from '../buttons/SecondaryButton';
+import { Link } from 'react-router-dom';
 
-const BookingForm = ({ venue, handleBooking, bookingLoading, bookingError, bookingSuccess }) => {
+const BookingForm = ({ venue, handleBooking, bookingLoading, bookingError, bookingSuccess, loggedIn }) => {
   const [dateFrom, setDateFrom] = useState(null);
   const [dateTo, setDateTo] = useState(null);
   const [guests, setGuests] = useState(1);
@@ -93,7 +95,7 @@ const BookingForm = ({ venue, handleBooking, bookingLoading, bookingError, booki
             name="guests"
             value={guests}
             onChange={(e) => setGuests(e.target.value)}
-            className="w-full p-2 border border-gray-600 bg-white text-grey rounded-md"
+            className="w-[176px] p-2 border border-gray-600 bg-white text-grey rounded-md"
             required
           >
             {Array.from({ length: venue.maxGuests }, (_, i) => (
@@ -105,9 +107,24 @@ const BookingForm = ({ venue, handleBooking, bookingLoading, bookingError, booki
           <p className="text-lg text-white font-semibold">Total: ${totalCost}</p>
         </div>
         {bookingError && <div className="text-red-400 mb-4">{bookingError}</div>}
-        <PrimaryButton>
-          {bookingLoading ? 'Booking...' : 'Book'}
-        </PrimaryButton>
+        {loggedIn ? (
+          <PrimaryButton>
+            {bookingLoading ? 'Booking...' : 'Book'}
+          </PrimaryButton>
+        ) : (
+          <div>
+            <h2 className="text-2xl text-white font-semibold mb-4">Log in to make a booking</h2>
+            <p className="text-white mb-4">You need to be logged in to book this venue. Please log in or sign up to proceed.</p>
+            <div className="flex flex-col items-center">
+              <Link to="/login" className="w-full mb-4">
+                <PrimaryButton className="w-full">Log in</PrimaryButton>
+              </Link>
+              <Link to="/register" className="w-full">
+                <SecondaryButton className="w-full">Register</SecondaryButton>
+              </Link>
+            </div>
+          </div>
+        )}
       </form>
       {bookingSuccess && (
         <div className="text-green-500 mt-4">

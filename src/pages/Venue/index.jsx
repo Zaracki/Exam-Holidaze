@@ -6,9 +6,6 @@ import VenueDetails from '../../components/VenueDetails';
 import BookingForm from '../../components/form/BookingForm';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { isLoggedIn } from '../../utils/LocalStorage';
-import { Link } from 'react-router-dom';
-import PrimaryButton from '../../components/buttons/PrimaryButton';
-import SecondaryButton from '../../components/buttons/SecondaryButton';
 import fallbackImage from '../../assets/fallback-img.png';
 
 export const Venue = () => {
@@ -42,7 +39,6 @@ export const Venue = () => {
     }
   };
 
-
   if (isLoading) {
     return <LoadingSpinner />;
   }
@@ -67,28 +63,14 @@ export const Venue = () => {
       </div>
       <div className="flex flex-col md:flex-row justify-center items-start mt-8 max-w-[1152px] w-full">
         <VenueDetails venue={venue} />
-        {loggedIn ? (
-          <BookingForm
-            venue={venue}
-            handleBooking={handleBooking}
-            bookingLoading={bookingLoading}
-            bookingError={bookingError}
-            bookingSuccess={bookingSuccess}
-          />
-        ) : (
-          <div className="w-full md:w-[400px] p-4 bg-[#282828] mt-8 md:mt-0 md:ml-8 rounded-md">
-            <h2 className="text-2xl text-white font-semibold mb-4">Log in to make a booking</h2>
-            <p className="text-white mb-4">You need to be logged in to book this venue. Please log in or sign up to proceed.</p>
-            <div className="flex flex-col items-center">
-              <Link to="/login" className="w-full mb-4">
-                <PrimaryButton className="w-full">Log in</PrimaryButton>
-              </Link>
-              <Link to="/register" className="w-full">
-                <SecondaryButton className="w-full">Register</SecondaryButton>
-              </Link>
-            </div>
-          </div>
-        )}
+        <BookingForm
+          venue={venue}
+          handleBooking={handleBooking}
+          bookingLoading={bookingLoading}
+          bookingError={bookingError}
+          bookingSuccess={bookingSuccess}
+          loggedIn={loggedIn}
+        />
       </div>
     </div>
   );
