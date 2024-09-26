@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
 import { useFetch } from "../../hooks/useFetch";
 import { API_URL, VENUES } from "../../api/Constants";
 import { VenueList } from "../../components/lists/VenueList";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 export const Home = () => {
   const { data: venues, isLoading, hasError } = useFetch(`${API_URL}${VENUES}`);
@@ -19,7 +20,7 @@ export const Home = () => {
   };
 
   return (
-    <div className="bg-black min-h-screen">
+    <div className="bg-zinc-900 min-h-screen">
       <div className="relative">
         <img
           src="src/assets/hero-image.png"
@@ -36,6 +37,8 @@ export const Home = () => {
           <div className="flex items-center justify-center mt-5 w-full max-w-[660px]">
             <input
               type="text"
+              id="search-query"
+              name="search-query"
               placeholder="Search for your getaway..."
               className="flex-1 h-10 px-4 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={searchQuery}
@@ -45,7 +48,7 @@ export const Home = () => {
           </div>
         </div>
       </div>
-      {isLoading && <p>Loading venues...</p>}
+      {isLoading && <LoadingSpinner />}
       {hasError && <p>Something went wrong, please try again later.</p>}
       {!isLoading && !hasError && <VenueList products={filteredVenues.length > 0 ? filteredVenues : venues} />}
     </div>

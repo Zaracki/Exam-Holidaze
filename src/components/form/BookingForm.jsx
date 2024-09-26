@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import PrimaryButton from '../buttons/PrimaryButton';
 
-const BookingForm = ({ venue, handleBooking, bookingLoading, bookingError }) => {
+const BookingForm = ({ venue, handleBooking, bookingLoading, bookingError, bookingSuccess }) => {
   const [dateFrom, setDateFrom] = useState(null);
   const [dateTo, setDateTo] = useState(null);
   const [guests, setGuests] = useState(1);
@@ -21,7 +21,7 @@ const BookingForm = ({ venue, handleBooking, bookingLoading, bookingError }) => 
   const calculateTotalCost = (dateFrom, dateTo) => {
     if (dateFrom && dateTo) {
       const days = (dateTo - dateFrom) / (1000 * 60 * 60 * 24);
-      setTotalCost(days * venue.price);
+      setTotalCost(Math.floor(days * venue.price));
     } else {
       setTotalCost(0);
     }
@@ -82,7 +82,7 @@ const BookingForm = ({ venue, handleBooking, bookingLoading, bookingError }) => 
             className="w-full p-2 border border-gray-600 bg-white text-grey rounded-md"
             required
           />
-          {dateOverlapError && <div className="text-red-500 mt-2">You cannot overlap with existing bookings.</div>}
+          {dateOverlapError && <div className="text-red-400 mt-2">You cannot overlap with existing bookings.</div>}
         </div>
         <div className="mb-4">
           <label className="block text-white text-sm font-bold mb-2" htmlFor="guests">
@@ -104,11 +104,16 @@ const BookingForm = ({ venue, handleBooking, bookingLoading, bookingError }) => 
         <div className="mb-4">
           <p className="text-lg text-white font-semibold">Total: ${totalCost}</p>
         </div>
-        {bookingError && <div className="text-red-500 mb-4">{bookingError}</div>}
+        {bookingError && <div className="text-red-400 mb-4">{bookingError}</div>}
         <PrimaryButton>
           {bookingLoading ? 'Booking...' : 'Book'}
         </PrimaryButton>
       </form>
+      {bookingSuccess && (
+        <div className="text-green-500 mt-4">
+          Booking confirmed!
+        </div>
+      )}
     </div>
   );
 };
