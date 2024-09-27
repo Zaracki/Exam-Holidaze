@@ -23,7 +23,7 @@ const VenueCard = ({ data }) => {
         <div className="h-[233px] w-full">
           <img
             src={data.media[0]?.url || fallbackImage}
-            alt={data.media[0]?.alt || "Venue image"}
+            alt={data.media[0]?.alt || "Venue thumbnail"}
             className="w-full h-full object-cover"
             onError={(e) => { e.target.src = fallbackImage; }}
           />

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useFetch } from "../../hooks/useFetch";
 import { load } from "../../utils/LocalStorage";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
+import SecondaryButton from "../../components/buttons/SecondaryButton";
 import { Link } from "react-router-dom";
 import usePut from "../../hooks/usePut";
 import useDelete from "../../hooks/useDelete";
@@ -182,14 +183,14 @@ const Profile = () => {
                         </p>
                         <div className="flex space-x-2 mt-2">
                           <Link to={`/EditVenue/${venue.id}`}>
-                            <button className="text-sm bg-blue-500 text-white py-1 px-2">Edit</button>
+                            <PrimaryButton className="text-sm text-white py-1 px-2">Edit</PrimaryButton>
                           </Link>
-                          <button
+                          <SecondaryButton
                             onClick={() => handleDelete(venue.id)}
-                            className="text-sm bg-red-500 text-white py-1 px-2"
+                            className="text-sm text-white py-1 px-2"
                           >
                             Delete
-                          </button>
+                          </SecondaryButton>
                         </div>
                       </div>
                     </div>
@@ -197,7 +198,7 @@ const Profile = () => {
                       <>
                         <button
                           onClick={() => toggleCollapse(venue.id)}
-                          className="mt-4 text-blue-500 hover:underline"
+                          className="mt-4 text-yellow-500 hover:underline"
                         >
                           {collapsedVenues[venue.id] ? 'Hide Bookings' : 'Show Bookings'}
                         </button>

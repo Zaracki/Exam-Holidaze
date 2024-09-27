@@ -41,6 +41,7 @@ export const Home = () => {
               id="search-query"
               name="search-query"
               placeholder="Search for your getaway..."
+              aria-label="Search for your getaway"
               className="flex-1 h-10 px-4 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
