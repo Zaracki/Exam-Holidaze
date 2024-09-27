@@ -23,14 +23,14 @@ const VenueCard = ({ data }) => {
         <div className="h-[233px] w-full">
           <img
             src={data.media[0]?.url || fallbackImage}
-            alt={data.media[0]?.alt || "Venue image"}
+            alt={data.media[0]?.alt || "Venue thumbnail"}
             className="w-full h-full object-cover"
             onError={(e) => { e.target.src = fallbackImage; }}
           />
         </div>
         <div className="pl-4 pt-2 flex relative">
           <div className="flex flex-col flex-1 pr-4">
-            <p className="mb-1 text-xs text-white">
+            <p className="mb-1 text-sm text-gray-300">
               {locationText}
             </p>
             <h2 className="text-2xl font-bold mb-1 text-white">
@@ -39,7 +39,7 @@ const VenueCard = ({ data }) => {
             <h3 className="text-xl font-semibold text-white">{venuePrice}</h3>
           </div>
           <div className="absolute top-1 right-4">
-            <span className="text-xs text-white">{venueRating}</span>
+            <span className="text-sm text-gray-300">{venueRating}</span>
           </div>
         </div>
       </div>

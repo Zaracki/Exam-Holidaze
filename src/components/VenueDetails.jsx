@@ -16,7 +16,7 @@ const VenueDetails = ({ venue }) => {
         <h1 className="text-3xl font-bold">{venueName}</h1>
         <p className="text-lg">{location}</p>
         <div className="flex items-center mt-4">
-          <div className="w-[45px] h-[45px] bg-gray-300 rounded-full">
+          <div className="w-[50px] h-[50px] bg-gray-300 rounded-full">
             <img src={ownerAvatarUrl} alt={ownerAvatarAlt} className="w-full h-full rounded-full" />
           </div>
           <div className="ml-4">
@@ -24,9 +24,9 @@ const VenueDetails = ({ venue }) => {
             <p>Host</p>
           </div>
         </div>
-        <hr className="mt-3 mb-3 border-gray-600" />
+        <hr className="mt-3 mb-3 border-gray-400" />
         <p className="mt-2">{venueDescription}</p>
-        <hr className="mt-3 mb-3 border-gray-600" />
+        <hr className="mt-3 mb-3 border-gray-400" />
         <MetaTags meta={venue.meta} />
       </div>
     </div>

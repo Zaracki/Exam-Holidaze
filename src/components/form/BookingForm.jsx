@@ -48,11 +48,11 @@ const BookingForm = ({ venue, handleBooking, bookingLoading, bookingError, booki
   };
 
   return (
-    <div className="w-full md:w-[400px] p-4 bg-[#282828] mt-8 md:mt-0 md:ml-8 rounded-md">
+    <div className="w-full md:w-[400px] p-4 bg-stone-800 mt-8 md:mt-0 md:ml-8">
       <h2 className="text-2xl text-white font-semibold mb-4">Booking Details</h2>
       <form onSubmit={(e) => handleBooking(e, dateFrom, dateTo, guests, dateOverlapError)}>
         <div className="mb-4">
-          <label className="block text-white text-sm font-bold mb-2" htmlFor="date-from">
+          <label className="block text-white text-base font-bold mb-2" htmlFor="date-from">
             Date From
           </label>
           <DatePicker
@@ -65,12 +65,12 @@ const BookingForm = ({ venue, handleBooking, bookingLoading, bookingError, booki
             minDate={new Date()}
             filterDate={(date) => !isDateUnavailable(date)}
             placeholderText="Select start date"
-            className="w-full p-2 border border-gray-600 bg-white text-grey rounded-md"
+            className="w-full p-2 border border-gray-600 bg-white text-grey"
             required
           />
         </div>
         <div className="mb-4">
-          <label className="block text-white text-sm font-bold mb-2" htmlFor="date-to">
+          <label className="block text-white text-base font-bold mb-2" htmlFor="date-to">
             Date To
           </label>
           <DatePicker
@@ -83,13 +83,13 @@ const BookingForm = ({ venue, handleBooking, bookingLoading, bookingError, booki
             minDate={dateFrom ? new Date(dateFrom.getTime() + 86400000) : new Date()}
             filterDate={(date) => !isDateUnavailable(date)}
             placeholderText="Select end date"
-            className="w-full p-2 border border-gray-600 bg-white text-grey rounded-md"
+            className="w-full p-2 border border-gray-600 bg-white text-grey"
             required
           />
           {dateOverlapError && <div className="text-red-400 mt-2">You cannot overlap with existing bookings.</div>}
         </div>
         <div className="mb-4">
-          <label className="block text-white text-sm font-bold mb-2" htmlFor="guests">
+          <label className="block text-white text-base font-bold mb-2" htmlFor="guests">
             Number of Guests
           </label>
           <select
@@ -97,7 +97,7 @@ const BookingForm = ({ venue, handleBooking, bookingLoading, bookingError, booki
             name="guests"
             value={guests}
             onChange={(e) => setGuests(e.target.value)}
-            className="w-[176px] p-2 border border-gray-600 bg-white text-grey rounded-md"
+            className="w-[176px] p-2 border border-gray-600 bg-white text-grey"
             required
           >
             {Array.from({ length: venue.maxGuests }, (_, i) => (
@@ -115,6 +115,7 @@ const BookingForm = ({ venue, handleBooking, bookingLoading, bookingError, booki
           </PrimaryButton>
         ) : (
           <div>
+            <hr className="mt-3 mb-3 border-gray-400" />
             <h2 className="text-2xl text-white font-semibold mb-4">Log in to make a booking</h2>
             <p className="text-white mb-4">You need to be logged in to book this venue. Please log in or sign up to proceed.</p>
             <div className="flex flex-col items-center">

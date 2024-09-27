@@ -26,7 +26,7 @@ const Navbar = () => {
   return (
     <nav className="bg-zinc-900 h-16 px-4 flex items-center relative z-50">
       <div className="container mx-auto max-w-[1152px] flex items-center justify-between">
-        <div className="text-white text-2xl font-bold">
+        <div className="text-yellow-500 text-2xl font-bold">
           H
         </div>
 

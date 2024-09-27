@@ -1,7 +1,7 @@
 const PrimaryButton = ({ className, children, ...props }) => {
   return (
     <button
-      className={`h-[39px] px-[22px] py-2.5 bg-[#ad974f] justify-center items-center gap-2.5 inline-flex text-white text-base font-bold tracking-widest hover:border-2 hover:border-[#dab674] hover:px-[20px] hover:bg-transparent hover:text-[#dab674] ${className}`}
+      className={`h-[39px] px-[22px] py-2.5 bg-yellow-500 justify-center items-center gap-2.5 inline-flex text-zinc-900 text-base font-bold tracking-widest hover:border-2 hover:border-yellow-500 hover:px-[20px] hover:bg-transparent hover:text-yellow-500 ${className}`}
       {...props}
     >
       {children}
