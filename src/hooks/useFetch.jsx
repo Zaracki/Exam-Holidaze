@@ -27,7 +27,6 @@ export function useFetch(url) {
         headers.append('Content-Type', 'application/json');
 
         const response = await fetch(url, { headers });
-        console.log("Response:", response);
 
         if (!response.ok) {
           throw new Error(`Error: ${response.status}`);
