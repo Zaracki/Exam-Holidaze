@@ -21,7 +21,7 @@ export const Home = () => {
   };
 
   return (
-    <div className="bg-zinc-900 min-h-screen">
+    <div className="bg-zinc-900 min-h-screen pt-16">
       <div className="relative">
         <img
           src={heroImage}
