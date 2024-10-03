@@ -86,7 +86,7 @@ const EditVenue = () => {
   if (hasError) return <p>Error loading venue data.</p>;
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-zinc-900">
+    <div className="flex justify-center items-center min-h-screen bg-zinc-900 pt-16">
       <div className="w-full max-w-md p-8 space-y-6 bg-stone-800 text-white">
         <h1 className="text-2xl font-bold text-center">Edit Venue</h1>
         <VenueForm

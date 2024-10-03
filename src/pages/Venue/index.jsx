@@ -52,7 +52,7 @@ export const Venue = () => {
   }
 
   return (
-    <div className="bg-zinc-900 min-h-screen flex flex-col items-center px-10">
+    <div className="bg-zinc-900 min-h-screen flex flex-col items-center px-10 pt-16">
       <div className="w-full max-w-[1152px]">
         <img
           src={venue.media && venue.media.length > 0 ? venue.media[0].url : fallbackImage}
