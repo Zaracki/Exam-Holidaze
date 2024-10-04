@@ -52,7 +52,7 @@ const Login = () => {
   return (
     <main className="flex justify-center items-center min-h-screen bg-zinc-900 pt-16">
       <div className="w-full max-w-md p-8 space-y-6 bg-stone-800">
-        <h1 className="text-2xl font-bold text-center text-white">Log in</h1>
+        <h1 className="text-2xl font-bold text-center text-white">Login</h1>
         <LoginForm
           email={email}
           password={password}
