@@ -27,7 +27,6 @@ const Profile = () => {
   const [collapsedVenues, setCollapsedVenues] = useState({});
   const [submitError, setSubmitError] = useState(null);
 
-
   useEffect(() => {
     if (fetchedVenuesData) {
       setVenuesData(fetchedVenuesData);
@@ -108,7 +107,7 @@ const Profile = () => {
   }
 
   return (
-    <div className="text-white flex flex-col justify-center items-center min-h-screen bg-zinc-900 p-4 pt-16">
+    <main className="text-white flex flex-col justify-center items-center min-h-screen bg-zinc-900 p-4 pt-16">
       <div className="max-w-[632px] w-full mb-8">
         <h1 className="text-3xl font-medium mb-6">Profile</h1>
         {(hasErrorBookings || hasErrorVenues) && (
@@ -258,7 +257,7 @@ const Profile = () => {
           )}
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 

@@ -26,9 +26,11 @@ const Navbar = () => {
   return (
     <nav className="bg-zinc-900 h-16 px-4 flex items-center fixed top-0 w-full z-50">
       <div className="container mx-auto max-w-[1152px] flex items-center justify-between">
-        <div className="text-yellow-500 text-2xl font-bold">
-          H
-        </div>
+        <Link to="/">
+          <div className="text-white text-2xl font-bold">
+            H
+          </div>
+        </Link>
 
         <div className="lg:hidden text-white" onClick={toggleMenu}>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -89,7 +91,7 @@ const Navbar = () => {
                   </Link>
                 </li>
                 <li>
-                  <PrimaryButton onClick={handleLogout}>
+                  <PrimaryButton onClick={handleLogout} aria-label="Log out">
                     Logout
                   </PrimaryButton>
                 </li>
