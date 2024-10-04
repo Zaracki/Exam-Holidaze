@@ -21,7 +21,7 @@ export const Home = () => {
   };
 
   return (
-    <div className="bg-zinc-900 min-h-screen pt-16">
+    <main className="bg-zinc-900 min-h-screen pt-16">
       <div className="relative">
         <img
           src={heroImage}
@@ -53,6 +53,6 @@ export const Home = () => {
       {isLoading && <LoadingSpinner />}
       {hasError && <p>Something went wrong, please try again later.</p>}
       {!isLoading && !hasError && <VenueList products={filteredVenues.length > 0 ? filteredVenues : venues} />}
-    </div>
+    </main>
   );
 };

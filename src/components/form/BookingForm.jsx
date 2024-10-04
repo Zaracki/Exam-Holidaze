@@ -120,10 +120,10 @@ const BookingForm = ({ venue, handleBooking, bookingLoading, bookingError, booki
             <p className="text-white mb-4">You need to be logged in to book this venue. Please log in or sign up to proceed.</p>
             <div className="flex flex-col items-center">
               <Link to="/login" className="w-full mb-4">
-                <PrimaryButton className="w-full">Log in</PrimaryButton>
+                <PrimaryButton className="w-full" aria-label="Log in to your account">Log in</PrimaryButton>
               </Link>
               <Link to="/register" className="w-full">
-                <SecondaryButton className="w-full">Register</SecondaryButton>
+                <SecondaryButton className="w-full" aria-label="Register a new account">Register</SecondaryButton>
               </Link>
             </div>
           </div>
