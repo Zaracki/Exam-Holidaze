@@ -11,15 +11,6 @@ export const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredVenues, setFilteredVenues] = useState([]);
 
-  const handleSearch = () => {
-    if (venues) {
-      const filtered = venues.filter(venue =>
-        venue.name.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-      setFilteredVenues(filtered);
-    }
-  };
-
   return (
     <main className="bg-zinc-900 min-h-screen pt-16">
       <div className="relative">
@@ -44,9 +35,14 @@ export const Home = () => {
               aria-label="Search for your getaway"
               className="flex-1 h-10 px-4 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                const filtered = venues?.filter(venue =>
+                  venue.name.toLowerCase().includes(e.target.value.toLowerCase())
+                );
+                setFilteredVenues(filtered);
+              }}
             />
-            <PrimaryButton className="ml-1" onClick={handleSearch}>Search</PrimaryButton>
           </div>
         </div>
       </div>
