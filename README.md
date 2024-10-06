@@ -1,6 +1,6 @@
 # Holidaze - Project Exam 2
 
-![image](src/assets/readme-image.png)
+![image](src/assets/ReadmeImg.png)
 
 This is my delivery on my Project Exam 2 where you can book/create a Venue.
 
