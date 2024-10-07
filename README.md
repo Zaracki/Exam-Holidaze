@@ -28,8 +28,6 @@ A newly launched accommodation booking site called Holidaze has approached you t
 
 ## Built With
 
-You can list a the tech stack that you've used over here
-
 - React
 - Vite
 - Tailwind
